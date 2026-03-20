@@ -30,10 +30,10 @@ const AuthPage = () => {
 
       <div className="glass-card w-full max-w-md rounded-2xl p-8 animate-scale-up">
         <div className="mb-8 flex flex-col items-center gap-3">
-          <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-primary">
-            <Code2 className="h-6 w-6 text-primary-foreground" />
+          <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-accent">
+            <Code2 className="h-6 w-6 text-accent-foreground" />
           </div>
-          <h1 className="text-2xl font-bold tracking-tight text-foreground">CodeCraft IDE</h1>
+          <h1 className="text-2xl font-bold tracking-tight text-foreground">CodeCompiler</h1>
           <p className="text-sm text-muted-foreground">
             {isLogin ? "Welcome back" : "Create your account"}
           </p>
@@ -47,7 +47,7 @@ const AuthPage = () => {
               value={name}
               onChange={(e) => setName(e.target.value)}
               required={!isLogin}
-              className="rounded-lg border border-input bg-secondary/50 px-4 py-3 text-sm text-foreground placeholder:text-muted-foreground outline-none transition-colors focus:border-primary focus:ring-1 focus:ring-primary"
+              className="rounded-lg border border-input bg-secondary/50 px-4 py-3 text-sm text-foreground placeholder:text-muted-foreground outline-none transition-colors focus:border-accent focus:ring-1 focus:ring-accent"
             />
           )}
           <input
@@ -56,7 +56,7 @@ const AuthPage = () => {
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             required
-            className="rounded-lg border border-input bg-secondary/50 px-4 py-3 text-sm text-foreground placeholder:text-muted-foreground outline-none transition-colors focus:border-primary focus:ring-1 focus:ring-primary"
+            className="rounded-lg border border-input bg-secondary/50 px-4 py-3 text-sm text-foreground placeholder:text-muted-foreground outline-none transition-colors focus:border-accent focus:ring-1 focus:ring-accent"
           />
           <input
             type="password"
@@ -64,13 +64,13 @@ const AuthPage = () => {
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             required
-            className="rounded-lg border border-input bg-secondary/50 px-4 py-3 text-sm text-foreground placeholder:text-muted-foreground outline-none transition-colors focus:border-primary focus:ring-1 focus:ring-primary"
+            className="rounded-lg border border-input bg-secondary/50 px-4 py-3 text-sm text-foreground placeholder:text-muted-foreground outline-none transition-colors focus:border-accent focus:ring-1 focus:ring-accent"
           />
 
           <button
             type="submit"
             disabled={loading}
-            className="mt-2 flex items-center justify-center gap-2 rounded-lg bg-primary px-4 py-3 text-sm font-semibold text-primary-foreground transition-all duration-200 hover:brightness-110 active:scale-[0.97] disabled:opacity-60"
+            className="mt-2 flex items-center justify-center gap-2 rounded-lg bg-accent px-4 py-3 text-sm font-semibold text-accent-foreground transition-all duration-200 hover:brightness-110 active:scale-[0.97] disabled:opacity-60"
           >
             {loading ? (
               <Loader2 className="h-4 w-4 animate-spin-slow" />
@@ -87,7 +87,7 @@ const AuthPage = () => {
           {isLogin ? "Don't have an account?" : "Already have an account?"}{" "}
           <button
             onClick={() => setIsLogin(!isLogin)}
-            className="font-semibold text-primary transition-colors hover:underline"
+            className="font-semibold text-accent transition-colors hover:underline"
           >
             {isLogin ? "Sign up" : "Sign in"}
           </button>
