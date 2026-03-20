@@ -60,7 +60,7 @@ const EditorPage = () => {
   return (
     <div className="flex h-screen flex-col bg-background">
       {/* Navbar */}
-      <nav className="flex h-12 shrink-0 items-center justify-between border-b border-navbar-border bg-navbar-bg px-4">
+      <nav className="flex h-12 shrink-0 items-center justify-between border-b border-navbar-border bg-navbar-bg/90 backdrop-blur-xl px-4">
         <div className="flex items-center gap-3">
           <button
             onClick={() => navigate("/")}
@@ -69,7 +69,7 @@ const EditorPage = () => {
             <ArrowLeft className="h-4 w-4" />
           </button>
           <div className="flex items-center gap-2">
-            <Code2 className="h-4 w-4 text-primary" />
+            <Code2 className="h-4 w-4 text-accent" />
             <span className="text-sm font-semibold text-foreground">{lang.name}</span>
           </div>
         </div>
@@ -77,7 +77,7 @@ const EditorPage = () => {
           <button
             onClick={handleRun}
             disabled={running}
-            className="flex items-center gap-2 rounded-lg bg-primary px-4 py-1.5 text-xs font-semibold text-primary-foreground transition-all duration-200 hover:brightness-110 active:scale-[0.97] disabled:opacity-60"
+            className="flex items-center gap-2 rounded-lg bg-accent px-4 py-1.5 text-xs font-semibold text-accent-foreground transition-all duration-200 hover:brightness-110 active:scale-[0.97] disabled:opacity-60"
           >
             {running ? (
               <Loader2 className="h-3.5 w-3.5 animate-spin-slow" />
@@ -92,7 +92,6 @@ const EditorPage = () => {
 
       {/* Editor + Terminal */}
       <div className="flex flex-1 overflow-hidden">
-        {/* Editor */}
         <div className="flex w-1/2 flex-col border-r border-border">
           <Editor
             height="100%"
@@ -118,7 +117,6 @@ const EditorPage = () => {
           />
         </div>
 
-        {/* Terminal / Preview */}
         <div className="flex w-1/2 flex-col p-3">
           {showPreview && isWebLang ? (
             <div className="flex h-full flex-col gap-3">
