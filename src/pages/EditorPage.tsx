@@ -1,5 +1,7 @@
 import { useState, useRef, useCallback } from "react";
 import { useParams, useNavigate } from "react-router-dom";
+import JSZip from "jszip";
+import { saveAs } from "file-saver";
 import Editor from "@monaco-editor/react";
 import { ThemeToggle } from "@/components/ThemeToggle";
 import { Terminal } from "@/components/Terminal";
