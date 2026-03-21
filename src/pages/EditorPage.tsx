@@ -90,6 +90,15 @@ const EditorPage = () => {
     setTimeout(() => setCopied(false), 2000);
   }, [files, langId]);
 
+  const handleExport = useCallback(async () => {
+    const zip = new JSZip();
+    Object.entries(files).forEach(([name, content]) => {
+      zip.file(name, content);
+    });
+    const blob = await zip.generateAsync({ type: "blob" });
+    saveAs(blob, `${langId}-project.zip`);
+  }, [files, langId]);
+
   const handleClear = useCallback(() => {
     setOutput("");
     setErrorOutput("");
