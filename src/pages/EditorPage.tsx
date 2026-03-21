@@ -1,5 +1,7 @@
 import { useState, useRef, useCallback } from "react";
 import { useParams, useNavigate } from "react-router-dom";
+import JSZip from "jszip";
+import { saveAs } from "file-saver";
 import Editor from "@monaco-editor/react";
 import { ThemeToggle } from "@/components/ThemeToggle";
 import { Terminal } from "@/components/Terminal";
@@ -12,7 +14,7 @@ import { useFileSystem, useEditorSettings, generateProjectId, saveProject } from
 import { useTheme } from "@/contexts/ThemeContext";
 import {
   ArrowLeft, Code2, Play, Loader2, Settings, Share2, Check,
-  PanelLeftClose, PanelLeft, PanelBottomClose, PanelBottom,
+  PanelLeftClose, PanelLeft, PanelBottomClose, PanelBottom, Download,
 } from "lucide-react";
 
 const EditorPage = () => {
@@ -88,6 +90,15 @@ const EditorPage = () => {
     setTimeout(() => setCopied(false), 2000);
   }, [files, langId]);
 
+  const handleExport = useCallback(async () => {
+    const zip = new JSZip();
+    Object.entries(files).forEach(([name, content]) => {
+      zip.file(name, content);
+    });
+    const blob = await zip.generateAsync({ type: "blob" });
+    saveAs(blob, `${langId}-project.zip`);
+  }, [files, langId]);
+
   const handleClear = useCallback(() => {
     setOutput("");
     setErrorOutput("");
@@ -125,6 +136,14 @@ const EditorPage = () => {
         </div>
 
         <div className="flex items-center gap-1.5">
+          <button
+            onClick={handleExport}
+            className="flex items-center gap-1.5 rounded-md border border-border px-2.5 py-1 text-[11px] font-medium text-muted-foreground transition-all hover:bg-secondary hover:text-foreground active:scale-[0.97]"
+            title="Download as ZIP"
+          >
+            <Download className="h-3 w-3" />
+            Export
+          </button>
           <button
             onClick={handleShare}
             className="flex items-center gap-1.5 rounded-md border border-border px-2.5 py-1 text-[11px] font-medium text-muted-foreground transition-all hover:bg-secondary hover:text-foreground active:scale-[0.97]"
