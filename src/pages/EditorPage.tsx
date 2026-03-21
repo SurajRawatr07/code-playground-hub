@@ -14,7 +14,7 @@ import { useFileSystem, useEditorSettings, generateProjectId, saveProject } from
 import { useTheme } from "@/contexts/ThemeContext";
 import {
   ArrowLeft, Code2, Play, Loader2, Settings, Share2, Check,
-  PanelLeftClose, PanelLeft, PanelBottomClose, PanelBottom,
+  PanelLeftClose, PanelLeft, PanelBottomClose, PanelBottom, Download,
 } from "lucide-react";
 
 const EditorPage = () => {
