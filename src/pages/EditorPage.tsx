@@ -1,26 +1,29 @@
-import { useState, useRef, useCallback } from "react";
+import { useState, useRef, useCallback, useEffect, useMemo } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import JSZip from "jszip";
 import { saveAs } from "file-saver";
-import Editor from "@monaco-editor/react";
-import { ThemeToggle } from "@/components/ThemeToggle";
+import Editor, { OnMount } from "@monaco-editor/react";
+import { ThemeSwitcher } from "@/components/ThemeSwitcher";
 import { Terminal } from "@/components/Terminal";
 import { FileExplorer } from "@/components/FileExplorer";
 import { FileTabs } from "@/components/FileTabs";
 import { SettingsModal } from "@/components/SettingsModal";
+import { CommandPalette, Command } from "@/components/CommandPalette";
 import { languages } from "@/lib/languages";
 import { executeCode, buildHtmlPreview } from "@/lib/executor";
 import { useFileSystem, useEditorSettings, generateProjectId, saveProject } from "@/hooks/useFileSystem";
-import { useTheme } from "@/contexts/ThemeContext";
+import { useTheme, getMonacoTheme } from "@/contexts/ThemeContext";
 import {
   ArrowLeft, Code2, Play, Loader2, Settings, Share2, Check,
   PanelLeftClose, PanelLeft, PanelBottomClose, PanelBottom, Download,
+  ZoomIn, ZoomOut, Save,
 } from "lucide-react";
+import { ResizableHandle, ResizablePanel, ResizablePanelGroup } from "@/components/ui/resizable";
 
 const EditorPage = () => {
   const { langId } = useParams<{ langId: string }>();
   const navigate = useNavigate();
-  const { isDark } = useTheme();
+  const { theme } = useTheme();
   const lang = languages.find(l => l.id === langId);
 
   const {
@@ -39,7 +42,11 @@ const EditorPage = () => {
   const [sidebarOpen, setSidebarOpen] = useState(true);
   const [terminalOpen, setTerminalOpen] = useState(true);
   const [copied, setCopied] = useState(false);
+  const [paletteOpen, setPaletteOpen] = useState(false);
+  const [saved, setSaved] = useState(false);
   const iframeRef = useRef<HTMLIFrameElement>(null);
+  const editorRef = useRef<any>(null);
+  const monacoRef = useRef<any>(null);
 
   const isWebLang = langId === "html" || langId === "css" || langId === "react";
   const monacoLang = activeFile.endsWith(".html") ? "html"
@@ -49,6 +56,60 @@ const EditorPage = () => {
     : activeFile.endsWith(".java") ? "java"
     : activeFile.endsWith(".sql") ? "sql"
     : lang?.monacoLang || "plaintext";
+
+  // Register custom themes on Monaco mount
+  const handleEditorMount: OnMount = (editor, monaco) => {
+    editorRef.current = editor;
+    monacoRef.current = monaco;
+
+    monaco.editor.defineTheme("dracula", {
+      base: "vs-dark",
+      inherit: true,
+      rules: [
+        { token: "comment", foreground: "6272a4", fontStyle: "italic" },
+        { token: "keyword", foreground: "ff79c6" },
+        { token: "string", foreground: "f1fa8c" },
+        { token: "number", foreground: "bd93f9" },
+        { token: "type", foreground: "8be9fd", fontStyle: "italic" },
+      ],
+      colors: {
+        "editor.background": "#282a36",
+        "editor.foreground": "#f8f8f2",
+        "editorLineNumber.foreground": "#6272a4",
+        "editor.selectionBackground": "#44475a",
+        "editor.lineHighlightBackground": "#44475a50",
+      },
+    });
+
+    monaco.editor.defineTheme("monokai", {
+      base: "vs-dark",
+      inherit: true,
+      rules: [
+        { token: "comment", foreground: "75715E", fontStyle: "italic" },
+        { token: "keyword", foreground: "F92672" },
+        { token: "string", foreground: "E6DB74" },
+        { token: "number", foreground: "AE81FF" },
+        { token: "type", foreground: "66D9EF", fontStyle: "italic" },
+      ],
+      colors: {
+        "editor.background": "#272822",
+        "editor.foreground": "#F8F8F2",
+        "editorLineNumber.foreground": "#75715E",
+        "editor.selectionBackground": "#49483E",
+        "editor.lineHighlightBackground": "#3E3D3250",
+      },
+    });
+
+    // Set initial theme
+    monaco.editor.setTheme(getMonacoTheme(theme));
+  };
+
+  // Sync Monaco theme when theme changes
+  useEffect(() => {
+    if (monacoRef.current) {
+      monacoRef.current.editor.setTheme(getMonacoTheme(theme));
+    }
+  }, [theme]);
 
   const handleRun = useCallback(async () => {
     setRunning(true);
@@ -78,8 +139,31 @@ const EditorPage = () => {
     const result = await executeCode(langId!, files[activeFile] || "", files);
     setOutput(result.output);
     setErrorOutput(result.error);
+
+    // Highlight error line in Monaco
+    if (result.error && editorRef.current && monacoRef.current) {
+      const lineMatch = result.error.match(/line (\d+)/i);
+      if (lineMatch) {
+        const lineNum = parseInt(lineMatch[1]);
+        editorRef.current.deltaDecorations([], [{
+          range: new monacoRef.current.Range(lineNum, 1, lineNum, 1),
+          options: {
+            isWholeLine: true,
+            className: "bg-destructive/20",
+            glyphMarginClassName: "bg-destructive",
+          },
+        }]);
+      }
+    }
+
     setRunning(false);
   }, [files, activeFile, langId, isWebLang, saveNow]);
+
+  const handleSave = useCallback(() => {
+    saveNow();
+    setSaved(true);
+    setTimeout(() => setSaved(false), 1500);
+  }, [saveNow]);
 
   const handleShare = useCallback(() => {
     const id = generateProjectId();
@@ -104,6 +188,61 @@ const EditorPage = () => {
     setErrorOutput("");
     setShowPreview(false);
   }, []);
+
+  const zoomIn = useCallback(() => {
+    const newSize = Math.min(settings.fontSize + 2, 32);
+    updateSettings({ fontSize: newSize });
+  }, [settings.fontSize, updateSettings]);
+
+  const zoomOut = useCallback(() => {
+    const newSize = Math.max(settings.fontSize - 2, 10);
+    updateSettings({ fontSize: newSize });
+  }, [settings.fontSize, updateSettings]);
+
+  const zoomReset = useCallback(() => {
+    updateSettings({ fontSize: 14 });
+  }, [updateSettings]);
+
+  // Commands for palette
+  const commands: Command[] = useMemo(() => [
+    { id: "run", label: "Run Code", shortcut: "Ctrl+Enter", action: handleRun },
+    { id: "save", label: "Save Code", shortcut: "Ctrl+S", action: handleSave },
+    { id: "clear", label: "Clear Terminal", action: handleClear },
+    { id: "newfile", label: "Create New File", action: () => {
+      const name = prompt("File name:");
+      if (name) createFile(name);
+    }},
+    { id: "settings", label: "Open Settings", action: () => setSettingsOpen(true) },
+    { id: "sidebar", label: "Toggle Sidebar", shortcut: "Ctrl+B", action: () => setSidebarOpen(o => !o) },
+    { id: "terminal", label: "Toggle Terminal", shortcut: "Ctrl+`", action: () => setTerminalOpen(o => !o) },
+    { id: "export", label: "Export as ZIP", action: handleExport },
+    { id: "share", label: "Share Project", action: handleShare },
+    { id: "zoomin", label: "Zoom In", shortcut: "Ctrl++", action: zoomIn },
+    { id: "zoomout", label: "Zoom Out", shortcut: "Ctrl+-", action: zoomOut },
+    { id: "zoomreset", label: "Reset Zoom", shortcut: "Ctrl+0", action: zoomReset },
+  ], [handleRun, handleSave, handleClear, createFile, handleExport, handleShare, zoomIn, zoomOut, zoomReset]);
+
+  // Keyboard shortcuts
+  useEffect(() => {
+    const handler = (e: KeyboardEvent) => {
+      const ctrl = e.ctrlKey || e.metaKey;
+
+      if (ctrl && e.shiftKey && e.key === "P") {
+        e.preventDefault();
+        setPaletteOpen(o => !o);
+        return;
+      }
+      if (ctrl && e.key === "Enter") { e.preventDefault(); handleRun(); return; }
+      if (ctrl && e.key === "s") { e.preventDefault(); handleSave(); return; }
+      if (ctrl && e.key === "b") { e.preventDefault(); setSidebarOpen(o => !o); return; }
+      if (ctrl && e.key === "`") { e.preventDefault(); setTerminalOpen(o => !o); return; }
+      if (ctrl && (e.key === "=" || e.key === "+")) { e.preventDefault(); zoomIn(); return; }
+      if (ctrl && e.key === "-") { e.preventDefault(); zoomOut(); return; }
+      if (ctrl && e.key === "0") { e.preventDefault(); zoomReset(); return; }
+    };
+    window.addEventListener("keydown", handler);
+    return () => window.removeEventListener("keydown", handler);
+  }, [handleRun, handleSave, zoomIn, zoomOut, zoomReset]);
 
   if (!lang) {
     navigate("/");
@@ -131,11 +270,30 @@ const EditorPage = () => {
           <div className="mx-1 h-4 w-px bg-border" />
           <div className="flex items-center gap-1.5">
             <Code2 className="h-3.5 w-3.5 text-accent" />
-            <span className="text-xs font-semibold text-foreground">{lang.name}</span>
+            <span className="text-xs font-bold text-foreground">OneIDE</span>
+            <span className="text-[10px] text-muted-foreground">/ {lang.name}</span>
           </div>
         </div>
 
-        <div className="flex items-center gap-1.5">
+        <div className="flex items-center gap-1">
+          {/* Saved indicator */}
+          {saved && (
+            <span className="flex items-center gap-1 text-[10px] text-primary animate-fade-in mr-2">
+              <Save className="h-3 w-3" /> Saved
+            </span>
+          )}
+
+          {/* Zoom controls */}
+          <button onClick={zoomOut} className="flex h-7 w-7 items-center justify-center rounded-md text-muted-foreground transition-colors hover:bg-secondary hover:text-foreground active:scale-95" title="Zoom out">
+            <ZoomOut className="h-3.5 w-3.5" />
+          </button>
+          <span className="text-[10px] text-muted-foreground w-7 text-center">{settings.fontSize}px</span>
+          <button onClick={zoomIn} className="flex h-7 w-7 items-center justify-center rounded-md text-muted-foreground transition-colors hover:bg-secondary hover:text-foreground active:scale-95" title="Zoom in">
+            <ZoomIn className="h-3.5 w-3.5" />
+          </button>
+
+          <div className="mx-1 h-4 w-px bg-border" />
+
           <button
             onClick={handleExport}
             className="flex items-center gap-1.5 rounded-md border border-border px-2.5 py-1 text-[11px] font-medium text-muted-foreground transition-all hover:bg-secondary hover:text-foreground active:scale-[0.97]"
@@ -172,7 +330,7 @@ const EditorPage = () => {
           >
             <Settings className="h-3.5 w-3.5" />
           </button>
-          <ThemeToggle />
+          <ThemeSwitcher />
         </div>
       </nav>
 
@@ -202,59 +360,70 @@ const EditorPage = () => {
             onClose={closeFile}
           />
 
-          {/* Content Area */}
-          <div className="flex flex-1 overflow-hidden">
-            {/* Editor */}
-            <div className={`flex flex-col overflow-hidden ${showPreview && isWebLang ? "w-1/2 border-r border-border" : "flex-1"}`}>
-              <Editor
-                height="100%"
-                language={monacoLang}
-                value={files[activeFile] || ""}
-                onChange={v => updateFile(activeFile, v ?? "")}
-                theme={isDark ? "vs-dark" : "light"}
-                options={{
-                  fontSize: settings.fontSize,
-                  fontFamily: "'JetBrains Mono', 'Fira Code', 'Cascadia Code', monospace",
-                  minimap: { enabled: false },
-                  padding: { top: 12, bottom: 12 },
-                  lineNumbers: "on",
-                  scrollBeyondLastLine: false,
-                  wordWrap: "on",
-                  tabSize: settings.tabSize,
-                  renderWhitespace: "none",
-                  smoothScrolling: true,
-                  cursorBlinking: "smooth",
-                  cursorSmoothCaretAnimation: "on",
-                  bracketPairColorization: { enabled: true },
-                  suggest: { showKeywords: true, showSnippets: true },
-                }}
-              />
-            </div>
-
-            {/* Live Preview */}
-            {showPreview && isWebLang && (
-              <div className="flex w-1/2 flex-col">
-                <div className="flex h-8 shrink-0 items-center border-b border-border bg-card px-3">
-                  <span className="text-[11px] font-medium text-muted-foreground">Preview</span>
+          {/* Content Area with resizable panels */}
+          <ResizablePanelGroup direction="vertical" className="flex-1">
+            <ResizablePanel defaultSize={terminalOpen ? 65 : 100} minSize={30}>
+              <div className="flex h-full overflow-hidden">
+                {/* Editor */}
+                <div className={`flex flex-col overflow-hidden ${showPreview && isWebLang ? "w-1/2 border-r border-border" : "flex-1"}`}>
+                  <Editor
+                    height="100%"
+                    language={monacoLang}
+                    value={files[activeFile] || ""}
+                    onChange={v => updateFile(activeFile, v ?? "")}
+                    theme={getMonacoTheme(theme)}
+                    onMount={handleEditorMount}
+                    options={{
+                      fontSize: settings.fontSize,
+                      fontFamily: "'JetBrains Mono', 'Fira Code', 'Cascadia Code', monospace",
+                      minimap: { enabled: false },
+                      padding: { top: 12, bottom: 12 },
+                      lineNumbers: "on",
+                      scrollBeyondLastLine: false,
+                      wordWrap: "on",
+                      tabSize: settings.tabSize,
+                      renderWhitespace: "none",
+                      smoothScrolling: true,
+                      cursorBlinking: "smooth",
+                      cursorSmoothCaretAnimation: "on",
+                      bracketPairColorization: { enabled: true },
+                      suggest: { showKeywords: true, showSnippets: true },
+                    }}
+                  />
                 </div>
-                <iframe
-                  ref={iframeRef}
-                  title="preview"
-                  className="flex-1 bg-white"
-                  sandbox="allow-scripts"
-                />
-              </div>
-            )}
-          </div>
 
-          {/* Terminal */}
-          {terminalOpen && (
-            <div className={`shrink-0 border-t border-border p-2 ${showPreview && isWebLang ? "h-36" : "h-56"}`}>
-              <Terminal output={output} errorOutput={errorOutput} onClear={handleClear} />
-            </div>
-          )}
+                {/* Live Preview */}
+                {showPreview && isWebLang && (
+                  <div className="flex w-1/2 flex-col">
+                    <div className="flex h-8 shrink-0 items-center border-b border-border bg-card px-3">
+                      <span className="text-[11px] font-medium text-muted-foreground">Preview</span>
+                    </div>
+                    <iframe
+                      ref={iframeRef}
+                      title="preview"
+                      className="flex-1 bg-white"
+                      sandbox="allow-scripts"
+                    />
+                  </div>
+                )}
+              </div>
+            </ResizablePanel>
+
+            {terminalOpen && (
+              <>
+                <ResizableHandle withHandle />
+                <ResizablePanel defaultSize={35} minSize={15} maxSize={60}>
+                  <div className="h-full p-2">
+                    <Terminal output={output} errorOutput={errorOutput} onClear={handleClear} />
+                  </div>
+                </ResizablePanel>
+              </>
+            )}
+          </ResizablePanelGroup>
         </div>
       </div>
+
+      <CommandPalette commands={commands} open={paletteOpen} onClose={() => setPaletteOpen(false)} />
 
       <SettingsModal
         open={settingsOpen}
