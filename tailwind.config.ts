@@ -54,6 +54,11 @@ export default {
           "0%": { transform: "rotate(0deg)" },
           "100%": { transform: "rotate(360deg)" },
         },
+        "loading-bar": {
+          "0%": { width: "0%", marginLeft: "0%" },
+          "50%": { width: "60%", marginLeft: "20%" },
+          "100%": { width: "100%", marginLeft: "0%" },
+        },
         "glow-pulse": {
           "0%, 100%": { boxShadow: "0 0 20px hsl(var(--card-glow) / 0.1)" },
           "50%": { boxShadow: "0 0 30px hsl(var(--card-glow) / 0.2)" },
@@ -64,6 +69,7 @@ export default {
         "fade-in": "fade-in 0.4s ease-out forwards",
         "scale-up": "scale-up 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards",
         "spin-slow": "spin-slow 1s linear infinite",
+        "loading-bar": "loading-bar 1.5s ease-in-out infinite",
         "glow-pulse": "glow-pulse 3s ease-in-out infinite",
       },
     },

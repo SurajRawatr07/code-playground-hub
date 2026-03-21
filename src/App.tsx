@@ -1,8 +1,10 @@
+import { useState, useCallback } from "react";
 import { BrowserRouter, Route, Routes, Navigate } from "react-router-dom";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { AuthProvider, useAuth } from "@/contexts/AuthContext";
 import { ThemeProvider } from "@/contexts/ThemeContext";
+import { LoadingScreen } from "@/components/LoadingScreen";
 import AuthPage from "./pages/AuthPage";
 import HomePage from "./pages/HomePage";
 import EditorPage from "./pages/EditorPage";
@@ -18,22 +20,28 @@ const AuthRoute = ({ children }: { children: React.ReactNode }) => {
   return isLoggedIn ? <Navigate to="/" replace /> : <>{children}</>;
 };
 
-const App = () => (
-  <ThemeProvider>
-    <AuthProvider>
-      <TooltipProvider>
-        <Sonner />
-        <BrowserRouter>
-          <Routes>
-            <Route path="/auth" element={<AuthRoute><AuthPage /></AuthRoute>} />
-            <Route path="/" element={<ProtectedRoute><HomePage /></ProtectedRoute>} />
-            <Route path="/editor/:langId" element={<ProtectedRoute><EditorPage /></ProtectedRoute>} />
-            <Route path="*" element={<NotFound />} />
-          </Routes>
-        </BrowserRouter>
-      </TooltipProvider>
-    </AuthProvider>
-  </ThemeProvider>
-);
+const App = () => {
+  const [loading, setLoading] = useState(true);
+  const handleLoadComplete = useCallback(() => setLoading(false), []);
+
+  return (
+    <ThemeProvider>
+      <AuthProvider>
+        <TooltipProvider>
+          <Sonner />
+          {loading && <LoadingScreen onComplete={handleLoadComplete} />}
+          <BrowserRouter>
+            <Routes>
+              <Route path="/auth" element={<AuthRoute><AuthPage /></AuthRoute>} />
+              <Route path="/" element={<ProtectedRoute><HomePage /></ProtectedRoute>} />
+              <Route path="/editor/:langId" element={<ProtectedRoute><EditorPage /></ProtectedRoute>} />
+              <Route path="*" element={<NotFound />} />
+            </Routes>
+          </BrowserRouter>
+        </TooltipProvider>
+      </AuthProvider>
+    </ThemeProvider>
+  );
+};
 
 export default App;
