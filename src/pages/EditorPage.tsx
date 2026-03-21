@@ -128,6 +128,14 @@ const EditorPage = () => {
 
         <div className="flex items-center gap-1.5">
           <button
+            onClick={handleExport}
+            className="flex items-center gap-1.5 rounded-md border border-border px-2.5 py-1 text-[11px] font-medium text-muted-foreground transition-all hover:bg-secondary hover:text-foreground active:scale-[0.97]"
+            title="Download as ZIP"
+          >
+            <Download className="h-3 w-3" />
+            Export
+          </button>
+          <button
             onClick={handleShare}
             className="flex items-center gap-1.5 rounded-md border border-border px-2.5 py-1 text-[11px] font-medium text-muted-foreground transition-all hover:bg-secondary hover:text-foreground active:scale-[0.97]"
           >
