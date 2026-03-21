@@ -6,10 +6,10 @@ export const Hero = () => {
         style={{ lineHeight: "1.1" }}
       >
         Code online with{" "}
-        <span className="text-accent">CodeCompiler</span>.
+        <span className="text-accent">OneIDE</span>.
       </h1>
       <p className="mx-auto mt-4 max-w-lg text-base text-muted-foreground" style={{ textWrap: "pretty" }}>
-        Write, run and share code online instantly. No setup required.
+        Code. Run. Build. Anywhere. No setup required.
       </p>
     </section>
   );

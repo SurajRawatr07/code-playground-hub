@@ -69,6 +69,7 @@ export default {
         "fade-in": "fade-in 0.4s ease-out forwards",
         "scale-up": "scale-up 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards",
         "spin-slow": "spin-slow 1s linear infinite",
+        "loading-bar": "loading-bar 1.5s ease-in-out infinite",
         "glow-pulse": "glow-pulse 3s ease-in-out infinite",
       },
     },
