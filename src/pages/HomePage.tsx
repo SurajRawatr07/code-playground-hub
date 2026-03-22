@@ -4,6 +4,9 @@ import { Navbar } from "@/components/Navbar";
 import { Hero } from "@/components/Hero";
 import { CategoryTabs } from "@/components/CategoryTabs";
 import { LanguageGrid } from "@/components/LanguageGrid";
+import { LanguagesTools } from "@/components/LanguagesTools";
+import { WhyChooseUs } from "@/components/WhyChooseUs";
+import { StatsSection } from "@/components/StatsSection";
 import { languages, Language } from "@/lib/languages";
 
 const HomePage = () => {
@@ -43,6 +46,9 @@ const HomePage = () => {
       <main className="mx-auto max-w-5xl px-4 pb-16">
         <LanguageGrid languages={filtered} onSelect={handleSelect} />
       </main>
+      <LanguagesTools />
+      <WhyChooseUs />
+      <StatsSection />
     </div>
   );
 };
