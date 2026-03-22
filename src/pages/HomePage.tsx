@@ -4,6 +4,9 @@ import { Navbar } from "@/components/Navbar";
 import { Hero } from "@/components/Hero";
 import { CategoryTabs } from "@/components/CategoryTabs";
 import { LanguageGrid } from "@/components/LanguageGrid";
+import { LanguagesTools } from "@/components/LanguagesTools";
+import { WhyChooseUs } from "@/components/WhyChooseUs";
+import { StatsSection } from "@/components/StatsSection";
 import { languages, Language } from "@/lib/languages";
 
 const HomePage = () => {
