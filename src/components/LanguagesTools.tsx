@@ -28,23 +28,6 @@ const sections: Section[] = [
     ],
   },
   {
-    title: "Quick Run",
-    emoji: "⚡",
-    cards: [
-      { name: "JavaScript", icon: devicon("javascript/javascript-original.svg"), color: "50 90% 50%", langId: "javascript", badge: "Popular" },
-      { name: "Python", icon: devicon("python/python-original.svg"), color: "210 60% 50%", langId: "python", badge: "Popular" },
-    ],
-  },
-  {
-    title: "Programming Languages",
-    emoji: "💻",
-    cards: [
-      { name: "C", icon: devicon("c/c-original.svg"), color: "220 50% 50%", langId: "c" },
-      { name: "C++", icon: devicon("cplusplus/cplusplus-original.svg"), color: "210 70% 45%", langId: "cpp" },
-      { name: "Java", icon: devicon("java/java-original.svg"), color: "15 80% 50%", langId: "java" },
-    ],
-  },
-  {
     title: "Advanced",
     emoji: "🚀",
     cards: [

@@ -4,9 +4,18 @@ import { Navbar } from "@/components/Navbar";
 import { Hero } from "@/components/Hero";
 import { CategoryTabs } from "@/components/CategoryTabs";
 import { LanguageGrid } from "@/components/LanguageGrid";
+import { FeaturesSection } from "@/components/FeaturesSection";
+import { LiveDemoSection } from "@/components/LiveDemoSection";
 import { LanguagesTools } from "@/components/LanguagesTools";
+import { TemplatesSection } from "@/components/TemplatesSection";
+import { ThemePreviewSection } from "@/components/ThemePreviewSection";
+import { HowItWorksSection } from "@/components/HowItWorksSection";
+import { AuthCTASection } from "@/components/AuthCTASection";
+import { TestimonialsSection } from "@/components/TestimonialsSection";
+import { ResponsiveSection } from "@/components/ResponsiveSection";
 import { WhyChooseUs } from "@/components/WhyChooseUs";
 import { StatsSection } from "@/components/StatsSection";
+import { Footer } from "@/components/Footer";
 import { languages, Language } from "@/lib/languages";
 
 const HomePage = () => {
@@ -46,9 +55,18 @@ const HomePage = () => {
       <main className="mx-auto max-w-5xl px-4 pb-16">
         <LanguageGrid languages={filtered} onSelect={handleSelect} />
       </main>
+      <FeaturesSection />
+      <LiveDemoSection />
       <LanguagesTools />
+      <TemplatesSection />
+      <ThemePreviewSection />
+      <HowItWorksSection />
+      <AuthCTASection />
+      <TestimonialsSection />
+      <ResponsiveSection />
       <WhyChooseUs />
       <StatsSection />
+      <Footer />
     </div>
   );
 };
