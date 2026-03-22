@@ -46,6 +46,9 @@ const HomePage = () => {
       <main className="mx-auto max-w-5xl px-4 pb-16">
         <LanguageGrid languages={filtered} onSelect={handleSelect} />
       </main>
+      <LanguagesTools />
+      <WhyChooseUs />
+      <StatsSection />
     </div>
   );
 };
