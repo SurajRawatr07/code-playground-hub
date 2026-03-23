@@ -2,7 +2,7 @@ import { Code2, Github, Twitter, Linkedin } from "lucide-react";
 
 export const Footer = () => (
   <footer className="border-t border-border bg-card/50 backdrop-blur-sm">
-    <div className="mx-auto max-w-5xl px-4 py-12">
+    <div className="mx-auto max-w-6xl px-4 py-14">
       <div className="grid grid-cols-1 gap-8 sm:grid-cols-4">
         <div className="sm:col-span-1">
           <div className="flex items-center gap-2 mb-3">

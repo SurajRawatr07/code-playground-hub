@@ -26,7 +26,7 @@ export const AuthCTASection = () => {
           </button>
           <button
             onClick={() => navigate("/auth")}
-            className="flex items-center gap-2 rounded-xl border border-border bg-secondary px-6 py-3 text-sm font-semibold text-foreground transition-all hover:bg-muted active:scale-95"
+            className="flex items-center gap-2 rounded-xl border border-border bg-secondary px-6 py-3 text-sm font-semibold text-foreground transition-all duration-300 hover:bg-muted hover:scale-105 active:scale-95 hover:shadow-lg"
           >
             <UserPlus className="h-4 w-4" /> Sign Up
           </button>

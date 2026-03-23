@@ -69,7 +69,7 @@ export const Hero = () => {
           <div className="mt-8 flex flex-wrap justify-center gap-3 lg:justify-start">
             <button
               onClick={() => navigate("/editor/javascript")}
-              className="flex items-center gap-2 rounded-xl bg-primary px-6 py-3 text-sm font-semibold text-primary-foreground transition-all hover:brightness-110 active:scale-95"
+              className="flex items-center gap-2 rounded-xl bg-primary px-6 py-3 text-sm font-semibold text-primary-foreground transition-all duration-300 hover:brightness-110 hover:scale-105 active:scale-95 hover:shadow-lg"
             >
               <Play className="h-4 w-4" /> Start Coding
             </button>
@@ -77,7 +77,7 @@ export const Hero = () => {
               onClick={() => {
                 document.getElementById("live-demo")?.scrollIntoView({ behavior: "smooth" });
               }}
-              className="flex items-center gap-2 rounded-xl border border-border bg-secondary px-6 py-3 text-sm font-semibold text-foreground transition-all hover:bg-muted active:scale-95"
+              className="flex items-center gap-2 rounded-xl border border-border bg-secondary px-6 py-3 text-sm font-semibold text-foreground transition-all duration-300 hover:bg-muted hover:scale-105 active:scale-95 hover:shadow-lg"
             >
               Try Demo <ArrowRight className="h-4 w-4" />
             </button>

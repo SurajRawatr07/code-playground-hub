@@ -12,7 +12,7 @@ export const ThemePreviewSection = () => {
   const { theme, setTheme } = useTheme();
 
   return (
-    <section className="mx-auto max-w-5xl px-4 py-16">
+    <section className="mx-auto max-w-6xl px-4 py-20">
       <h2 className="mb-2 text-center text-2xl font-bold text-foreground sm:text-3xl animate-fade-up">
         🌙 Theme Showcase
       </h2>
