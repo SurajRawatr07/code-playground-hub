@@ -1,5 +1,6 @@
 import { Language } from "@/lib/languages";
 import { LanguageCard } from "./LanguageCard";
+import { EmptyState } from "./EmptyState";
 
 interface Props {
   languages: Language[];
@@ -9,9 +10,11 @@ interface Props {
 export const LanguageGrid = ({ languages, onSelect }: Props) => {
   if (languages.length === 0) {
     return (
-      <div className="py-16 text-center text-sm text-muted-foreground">
-        No language found.
-      </div>
+      <EmptyState
+        title="No language found"
+        description="Try a different search term or browse all categories"
+        actionLabel="Browse All"
+      />
     );
   }
 

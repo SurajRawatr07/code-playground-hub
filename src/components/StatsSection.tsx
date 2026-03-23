@@ -5,7 +5,7 @@ const stats = [
 ];
 
 export const StatsSection = () => (
-  <section className="mx-auto max-w-3xl px-4 py-12">
+  <section className="mx-auto max-w-4xl px-4 py-16">
     <div className="grid grid-cols-3 gap-4">
       {stats.map((s, i) => (
         <div

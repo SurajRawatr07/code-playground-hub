@@ -1,7 +1,7 @@
 import { Monitor, Tablet, Smartphone } from "lucide-react";
 
 export const ResponsiveSection = () => (
-  <section className="mx-auto max-w-5xl px-4 py-16">
+  <section className="mx-auto max-w-6xl px-4 py-20">
     <div className="glass-card flex flex-col items-center gap-8 rounded-2xl p-10 text-center animate-fade-up">
       <h2 className="text-2xl font-bold text-foreground sm:text-3xl">
         📱 Works on Any Device

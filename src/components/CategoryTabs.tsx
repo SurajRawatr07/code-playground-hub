@@ -13,7 +13,7 @@ export const CategoryTabs = ({ active, onChange }: Props) => {
     >
       <button
         onClick={() => onChange("All")}
-        className={`rounded-lg px-4 py-2 text-xs font-semibold transition-all duration-200 active:scale-95 ${
+        className={`rounded-lg px-4 py-2 text-xs font-semibold transition-all duration-300 active:scale-95 hover:scale-105 ${
           active === "All"
             ? "bg-accent text-accent-foreground shadow-md"
             : "bg-secondary text-muted-foreground hover:bg-muted hover:text-foreground"
@@ -25,7 +25,7 @@ export const CategoryTabs = ({ active, onChange }: Props) => {
         <button
           key={cat}
           onClick={() => onChange(cat)}
-          className={`rounded-lg px-4 py-2 text-xs font-semibold transition-all duration-200 active:scale-95 ${
+          className={`rounded-lg px-4 py-2 text-xs font-semibold transition-all duration-300 active:scale-95 hover:scale-105 ${
             active === cat
               ? "bg-accent text-accent-foreground shadow-md"
               : "bg-secondary text-muted-foreground hover:bg-muted hover:text-foreground"

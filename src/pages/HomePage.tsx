@@ -52,7 +52,7 @@ const HomePage = () => {
       <Navbar searchQuery={search} onSearchChange={handleSearchChange} />
       <Hero />
       <CategoryTabs active={category} onChange={setCategory} />
-      <main className="mx-auto max-w-5xl px-4 pb-16">
+      <main className="mx-auto max-w-6xl px-4 pb-20">
         <LanguageGrid languages={filtered} onSelect={handleSelect} />
       </main>
       <FeaturesSection />

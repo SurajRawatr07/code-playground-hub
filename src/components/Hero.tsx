@@ -53,7 +53,7 @@ export const Hero = () => {
   const navigate = useNavigate();
 
   return (
-    <section className="mx-auto max-w-5xl px-4 pb-12 pt-24 animate-fade-up">
+    <section className="mx-auto max-w-6xl px-4 pb-16 pt-28 animate-fade-up">
       <div className="flex flex-col items-center gap-10 lg:flex-row lg:justify-between lg:gap-16">
         <div className="flex-1 text-center lg:text-left">
           <h1
@@ -69,7 +69,7 @@ export const Hero = () => {
           <div className="mt-8 flex flex-wrap justify-center gap-3 lg:justify-start">
             <button
               onClick={() => navigate("/editor/javascript")}
-              className="flex items-center gap-2 rounded-xl bg-primary px-6 py-3 text-sm font-semibold text-primary-foreground transition-all hover:brightness-110 active:scale-95"
+              className="flex items-center gap-2 rounded-xl bg-primary px-6 py-3 text-sm font-semibold text-primary-foreground transition-all duration-300 hover:brightness-110 hover:scale-105 active:scale-95 hover:shadow-lg"
             >
               <Play className="h-4 w-4" /> Start Coding
             </button>
@@ -77,7 +77,7 @@ export const Hero = () => {
               onClick={() => {
                 document.getElementById("live-demo")?.scrollIntoView({ behavior: "smooth" });
               }}
-              className="flex items-center gap-2 rounded-xl border border-border bg-secondary px-6 py-3 text-sm font-semibold text-foreground transition-all hover:bg-muted active:scale-95"
+              className="flex items-center gap-2 rounded-xl border border-border bg-secondary px-6 py-3 text-sm font-semibold text-foreground transition-all duration-300 hover:bg-muted hover:scale-105 active:scale-95 hover:shadow-lg"
             >
               Try Demo <ArrowRight className="h-4 w-4" />
             </button>
