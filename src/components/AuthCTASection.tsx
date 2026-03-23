@@ -20,7 +20,7 @@ export const AuthCTASection = () => {
         <div className="flex flex-wrap gap-3">
           <button
             onClick={() => navigate("/auth")}
-            className="flex items-center gap-2 rounded-xl bg-primary px-6 py-3 text-sm font-semibold text-primary-foreground transition-all hover:brightness-110 active:scale-95"
+            className="flex items-center gap-2 rounded-xl bg-primary px-6 py-3 text-sm font-semibold text-primary-foreground transition-all duration-300 hover:brightness-110 hover:scale-105 active:scale-95 hover:shadow-lg"
           >
             <LogIn className="h-4 w-4" /> Login
           </button>
