@@ -53,7 +53,7 @@ export const Hero = () => {
   const navigate = useNavigate();
 
   return (
-    <section className="mx-auto max-w-5xl px-4 pb-12 pt-24 animate-fade-up">
+    <section className="mx-auto max-w-6xl px-4 pb-16 pt-28 animate-fade-up">
       <div className="flex flex-col items-center gap-10 lg:flex-row lg:justify-between lg:gap-16">
         <div className="flex-1 text-center lg:text-left">
           <h1
