@@ -56,7 +56,7 @@ const HomePage = () => {
       <HowItWorksSection />
       <AuthCTASection />
       <WhyChooseUs />
-      <Footer />
+      
     </div>
   );
 };
