@@ -10,7 +10,7 @@ import { TemplatesSection } from "@/components/TemplatesSection";
 import { HowItWorksSection } from "@/components/HowItWorksSection";
 import { AuthCTASection } from "@/components/AuthCTASection";
 import { WhyChooseUs } from "@/components/WhyChooseUs";
-import { Footer } from "@/components/Footer";
+
 import { languages, Language } from "@/lib/languages";
 
 const HomePage = () => {
