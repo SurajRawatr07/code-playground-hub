@@ -33,7 +33,7 @@ const AuthPage = () => {
           <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-accent">
             <Code2 className="h-6 w-6 text-accent-foreground" />
           </div>
-          <h1 className="text-2xl font-bold tracking-tight text-foreground">CodeCompiler</h1>
+          <h1 className="text-2xl font-bold tracking-tight text-foreground">OneIDE</h1>
           <p className="text-sm text-muted-foreground">
             {isLogin ? "Welcome back" : "Create your account"}
           </p>
