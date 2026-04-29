@@ -166,7 +166,7 @@ const EditorPage = () => {
       }
     }
     setRunning(false);
-  }, [files, activeFile, langId, isWebLang, saveNow]);
+  }, [files, activeFile, langId, isWebLang, canExecute, saveNow]);
 
   const handleSave = useCallback(() => {
     saveNow();
