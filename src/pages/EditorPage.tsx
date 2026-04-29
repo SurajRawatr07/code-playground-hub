@@ -137,16 +137,22 @@ const EditorPage = () => {
 
     if (isWebLang) {
       setShowPreview(true);
-      setTimeout(() => {
-        if (iframeRef.current) {
-          const doc = iframeRef.current.contentDocument;
-          if (doc) { doc.open(); doc.write(buildHtmlPreview(files, langId!)); doc.close(); }
-        }
-        const out = "✅ Preview rendered successfully";
-        setOutput(out);
-        setHistory(prev => [{ id: Date.now(), timestamp: new Date(), output: out, error: "" }, ...prev].slice(0, 50));
-        setRunning(false);
-      }, 500);
+      const html = buildHtmlPreview(files, langId!);
+      const writePreview = () => {
+        const iframe = iframeRef.current;
+        if (!iframe) return;
+        // Force a fresh document on every Run
+        iframe.srcdoc = html;
+      };
+      // Allow the iframe to mount (showPreview just flipped) before writing
+      requestAnimationFrame(() => {
+        requestAnimationFrame(() => {
+          writePreview();
+          setOutput("");
+          setHistory(prev => [{ id: Date.now(), timestamp: new Date(), output: "Preview updated", error: "" }, ...prev].slice(0, 50));
+          setRunning(false);
+        });
+      });
       return;
     }
 
