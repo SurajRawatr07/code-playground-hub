@@ -12,7 +12,7 @@ import { SettingsModal } from "@/components/SettingsModal";
 import { CommandPalette, Command } from "@/components/CommandPalette";
 import { useAuth } from "@/contexts/AuthContext";
 import { languages } from "@/lib/languages";
-import { executeCode, buildHtmlPreview } from "@/lib/executor";
+import { executeCode, buildHtmlPreview, isExecutable, UNSUPPORTED_MESSAGE } from "@/lib/executor";
 import { useFileSystem, useEditorSettings, generateProjectId, saveProject } from "@/hooks/useFileSystem";
 import { useTheme, getMonacoTheme } from "@/contexts/ThemeContext";
 import {
@@ -56,7 +56,8 @@ const EditorPage = () => {
   const langDropdownRef = useRef<HTMLDivElement>(null);
   const profileRef = useRef<HTMLDivElement>(null);
 
-  const isWebLang = langId === "html" || langId === "css" || langId === "react";
+  const isWebLang = langId === "html" || langId === "css" || langId === "javascript";
+  const canExecute = isExecutable(langId || "");
   const monacoLang = activeFile.endsWith(".html") ? "html"
     : activeFile.endsWith(".css") ? "css"
     : activeFile.endsWith(".js") || activeFile.endsWith(".jsx") ? "javascript"
@@ -125,6 +126,14 @@ const EditorPage = () => {
     setShowPreview(false);
     setTerminalOpen(true);
     saveNow();
+
+    if (!canExecute) {
+      const msg = `⚠️ ${UNSUPPORTED_MESSAGE}`;
+      setErrorOutput(msg);
+      setHistory(prev => [{ id: Date.now(), timestamp: new Date(), output: "", error: msg }, ...prev].slice(0, 50));
+      setRunning(false);
+      return;
+    }
 
     if (isWebLang) {
       setShowPreview(true);
