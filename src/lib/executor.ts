@@ -5,18 +5,26 @@ export interface ExecutionResult {
   error: string;
 }
 
-export async function executeCode(languageId: string, code: string, files?: ProjectFiles): Promise<ExecutionResult> {
-  await new Promise(r => setTimeout(r, 600 + Math.random() * 500));
+const SUPPORTED = new Set(["html", "css", "javascript"]);
 
-  if (languageId === "javascript" || languageId === "nodejs") {
+export const UNSUPPORTED_MESSAGE = "Currently only HTML, CSS, and JavaScript are supported.";
+
+export function isExecutable(languageId: string): boolean {
+  return SUPPORTED.has(languageId);
+}
+
+export async function executeCode(languageId: string, code: string, _files?: ProjectFiles): Promise<ExecutionResult> {
+  await new Promise(r => setTimeout(r, 300));
+
+  if (languageId === "javascript") {
     return executeJavaScript(code);
   }
 
-  if (languageId === "html" || languageId === "css" || languageId === "react") {
+  if (languageId === "html" || languageId === "css") {
     return { output: "✅ Preview rendered successfully", error: "" };
   }
 
-  return simulateExecution(languageId, code);
+  return { output: "", error: `⚠️ ${UNSUPPORTED_MESSAGE}` };
 }
 
 function executeJavaScript(code: string): ExecutionResult {
@@ -42,48 +50,31 @@ function executeJavaScript(code: string): ExecutionResult {
   }
 }
 
-function simulateExecution(languageId: string, code: string): ExecutionResult {
-  if (!code.trim()) {
-    return { output: "", error: "⚠️ No code to execute" };
-  }
-
-  const outputs: Record<string, string> = {
-    python: "Hello, Alice! 👋\nHello, Bob! 👋\nHello, Charlie! 👋\n\n✨ Program executed successfully!",
-    cpp: "Hello from C++!\n\n✅ Process exited with code 0",
-    java: "Hello, World! 🌍\n\n✅ Build successful",
-    c: "Hello from C!\nCount: 1\nCount: 2\nCount: 3\n\n✅ Process exited with code 0",
-    csharp: "Hello from C#! 🎯\nIteration 1\nIteration 2\n\n✅ Build successful",
-    php: "Hello from PHP! 🐘\nFruit: Apple\nFruit: Banana\n\n✅ Execution complete",
-    ruby: "Hello from Ruby! 💎\n\n✅ Done",
-    lua: "Hello from Lua! 🌙\nCount: 1\nCount: 2\nCount: 3\n\n✅ Done",
-    assembly: "Program executed successfully\n\n✅ Process exited with code 0",
-    mysql: "+----+-------+--------+\n| id | name  | active |\n+----+-------+--------+\n|  1 | Alice |      1 |\n|  2 | Bob   |      1 |\n+----+-------+--------+\n2 rows in set (0.01 sec)",
-    postgresql: "  name   | age\n---------+-----\n Alice   |  28\n Bob     |  32\n(2 rows)",
-    mongodb: '{ acknowledged: true, insertedId: ObjectId("...") }\n\n✅ Query executed',
-    plsql: "Hello, World!\n\nPL/SQL procedure successfully completed.",
-  };
-
-  return { output: outputs[languageId] || "✅ Program executed successfully", error: "" };
-}
-
 export function buildHtmlPreview(files: ProjectFiles, languageId: string): string {
-  if (languageId === "html" || languageId === "css") {
+  if (languageId === "html" || languageId === "css" || languageId === "javascript") {
     const html = files["index.html"] || "";
     const css = files["style.css"] || "";
-    const js = files["script.js"] || "";
+    const js =
+      files["script.js"] ||
+      files["main.js"] ||
+      files["index.js"] ||
+      (languageId === "javascript" ? Object.values(files)[0] || "" : "");
 
     if (html) {
-      // Inject CSS and JS into the HTML
       let result = html;
-      if (css && !result.includes("<link")) {
-        result = result.replace("</head>", `<style>${css}</style></head>`);
+      if (css && !/<link[^>]*style\.css/i.test(result)) {
+        result = result.includes("</head>")
+          ? result.replace("</head>", `<style>${css}</style></head>`)
+          : `<style>${css}</style>` + result;
       } else if (css) {
-        result = result.replace(/<link[^>]*style\.css[^>]*>/, `<style>${css}</style>`);
+        result = result.replace(/<link[^>]*style\.css[^>]*>/i, `<style>${css}</style>`);
       }
-      if (js && !result.includes("<script")) {
-        result = result.replace("</body>", `<script>${js}</script></body>`);
+      if (js && !/<script[^>]*script\.js/i.test(result)) {
+        result = result.includes("</body>")
+          ? result.replace("</body>", `<script>${js}<\/script></body>`)
+          : result + `<script>${js}<\/script>`;
       } else if (js) {
-        result = result.replace(/<script[^>]*script\.js[^>]*><\/script>/, `<script>${js}</script>`);
+        result = result.replace(/<script[^>]*script\.js[^>]*><\/script>/i, `<script>${js}<\/script>`);
       }
       return result;
     }
@@ -91,16 +82,24 @@ export function buildHtmlPreview(files: ProjectFiles, languageId: string): strin
     if (css) {
       return `<!DOCTYPE html><html><head><style>${css}</style></head><body><div class="card">CSS Preview ✨</div></body></html>`;
     }
-  }
 
-  if (languageId === "react") {
-    const appCode = files["App.jsx"] || Object.values(files)[0] || "";
-    return `<!DOCTYPE html><html><head>
-<script src="https://unpkg.com/react@18/umd/react.development.js"></script>
-<script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
-<script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
-</head><body><div id="root"></div>
-<script type="text/babel">${appCode}</script></body></html>`;
+    if (js) {
+      return `<!DOCTYPE html><html><head><meta charset="utf-8"><style>body{font-family:system-ui;padding:1rem;background:#0b0b12;color:#e6e6e6;}</style></head><body><script>
+        (function(){
+          const _log = (cls, args) => {
+            const p = document.createElement('div');
+            p.className = cls;
+            p.textContent = args.map(a => { try { return typeof a === 'object' ? JSON.stringify(a) : String(a); } catch(e){ return String(a); } }).join(' ');
+            document.body.appendChild(p);
+          };
+          const c = console;
+          console.log = (...a)=>{_log('log',a); c.log(...a);};
+          console.error = (...a)=>{_log('err',a); c.error(...a);};
+          console.warn = (...a)=>{_log('warn',a); c.warn(...a);};
+          try { ${js} } catch(e){ _log('err',[e.message]); }
+        })();
+      <\/script></body></html>`;
+    }
   }
 
   return "";
