@@ -50,6 +50,8 @@ const EditorPage = () => {
   const [langDropdownOpen, setLangDropdownOpen] = useState(false);
   const [profileOpen, setProfileOpen] = useState(false);
   const [history, setHistory] = useState<HistoryEntry[]>([]);
+  const [previewSrc, setPreviewSrc] = useState("");
+  const [previewKey, setPreviewKey] = useState(0);
   const iframeRef = useRef<HTMLIFrameElement>(null);
   const editorRef = useRef<any>(null);
   const monacoRef = useRef<any>(null);
