@@ -16,7 +16,7 @@ import { executeCode, buildHtmlPreview, isExecutable, UNSUPPORTED_MESSAGE } from
 import { useFileSystem, useEditorSettings, generateProjectId, saveProject } from "@/hooks/useFileSystem";
 import { useTheme, getMonacoTheme } from "@/contexts/ThemeContext";
 import {
-  ArrowLeft, Code2, Play, Loader2, Settings, Share2, Check,
+  ArrowLeft, Code2, Play, Square, Loader2, Settings, Share2, Check,
   PanelLeftClose, PanelLeft, PanelBottomClose, PanelBottom, Download,
   ZoomIn, ZoomOut, Save, User, LogOut, ChevronDown,
 } from "lucide-react";
@@ -52,6 +52,7 @@ const EditorPage = () => {
   const [history, setHistory] = useState<HistoryEntry[]>([]);
   const [previewSrc, setPreviewSrc] = useState("");
   const [previewKey, setPreviewKey] = useState(0);
+  const runIdRef = useRef(0);
   const iframeRef = useRef<HTMLIFrameElement>(null);
   const editorRef = useRef<any>(null);
   const monacoRef = useRef<any>(null);
@@ -122,6 +123,7 @@ const EditorPage = () => {
   }, [theme]);
 
   const handleRun = useCallback(async () => {
+    const myRunId = ++runIdRef.current;
     setRunning(true);
     setOutput("");
     setErrorOutput("");
@@ -131,6 +133,7 @@ const EditorPage = () => {
 
     if (!canExecute) {
       const msg = `⚠️ ${UNSUPPORTED_MESSAGE}`;
+      if (myRunId !== runIdRef.current) return;
       setErrorOutput(msg);
       setHistory(prev => [{ id: Date.now(), timestamp: new Date(), output: "", error: msg }, ...prev].slice(0, 50));
       setRunning(false);
@@ -139,8 +142,7 @@ const EditorPage = () => {
 
     if (isWebLang) {
       const html = buildHtmlPreview(files, langId!);
-      // Force a fresh iframe instance every Run — guarantees a clean lifecycle,
-      // no race with prior document, and no reliance on requestAnimationFrame timing.
+      if (myRunId !== runIdRef.current) return;
       setPreviewSrc(html);
       setPreviewKey(k => k + 1);
       setShowPreview(true);
@@ -149,6 +151,7 @@ const EditorPage = () => {
     }
 
     const result = await executeCode(langId!, files[activeFile] || "", files);
+    if (myRunId !== runIdRef.current) return;
     setOutput(result.output);
     setErrorOutput(result.error);
     setHistory(prev => [{ id: Date.now(), timestamp: new Date(), output: result.output, error: result.error }, ...prev].slice(0, 50));
@@ -171,6 +174,16 @@ const EditorPage = () => {
     setSaved(true);
     setTimeout(() => setSaved(false), 1500);
   }, [saveNow]);
+
+  const handleStop = useCallback(() => {
+    // Invalidate any in-flight run so its results are discarded.
+    runIdRef.current++;
+    setRunning(false);
+    setShowPreview(false);
+    setPreviewSrc("");
+    setOutput("⏹ Run cancelled");
+    setErrorOutput("");
+  }, []);
 
   const handleShare = useCallback(() => {
     const id = generateProjectId();
@@ -304,10 +317,25 @@ const EditorPage = () => {
             {copied ? <Check className="h-3 w-3 text-primary" /> : <Share2 className="h-3 w-3" />}
             <span className="hidden sm:inline">{copied ? "Copied!" : "Share"}</span>
           </button>
-          <button onClick={handleRun} disabled={running} className="flex items-center gap-1.5 rounded-md bg-primary px-3.5 py-1 text-[11px] font-semibold text-primary-foreground transition-all hover:brightness-110 active:scale-[0.97] disabled:opacity-60">
+          <button
+            onClick={handleRun}
+            disabled={running}
+            className="flex items-center gap-1.5 rounded-md bg-primary px-3.5 py-1 text-[11px] font-semibold text-primary-foreground transition-all hover:brightness-110 active:scale-[0.97] disabled:opacity-60 disabled:cursor-not-allowed"
+            title={running ? "A run is in progress" : "Run code (Ctrl+Enter)"}
+          >
             {running ? <Loader2 className="h-3 w-3 animate-spin" /> : <Play className="h-3 w-3" />}
             {running ? "Running..." : "Run"}
           </button>
+          {running && (
+            <button
+              onClick={handleStop}
+              className="flex items-center gap-1.5 rounded-md bg-destructive px-2.5 py-1 text-[11px] font-semibold text-destructive-foreground transition-all hover:brightness-110 active:scale-[0.97] animate-fade-in"
+              title="Stop run"
+            >
+              <Square className="h-3 w-3 fill-current" />
+              Stop
+            </button>
+          )}
           <button onClick={() => setTerminalOpen(o => !o)} className="flex h-7 w-7 items-center justify-center rounded-md text-muted-foreground transition-colors hover:bg-secondary hover:text-foreground active:scale-95" title={terminalOpen ? "Hide terminal" : "Show terminal"}>
             {terminalOpen ? <PanelBottomClose className="h-3.5 w-3.5" /> : <PanelBottom className="h-3.5 w-3.5" />}
           </button>
