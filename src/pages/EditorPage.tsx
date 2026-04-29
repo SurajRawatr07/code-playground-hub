@@ -317,10 +317,25 @@ const EditorPage = () => {
             {copied ? <Check className="h-3 w-3 text-primary" /> : <Share2 className="h-3 w-3" />}
             <span className="hidden sm:inline">{copied ? "Copied!" : "Share"}</span>
           </button>
-          <button onClick={handleRun} disabled={running} className="flex items-center gap-1.5 rounded-md bg-primary px-3.5 py-1 text-[11px] font-semibold text-primary-foreground transition-all hover:brightness-110 active:scale-[0.97] disabled:opacity-60">
+          <button
+            onClick={handleRun}
+            disabled={running}
+            className="flex items-center gap-1.5 rounded-md bg-primary px-3.5 py-1 text-[11px] font-semibold text-primary-foreground transition-all hover:brightness-110 active:scale-[0.97] disabled:opacity-60 disabled:cursor-not-allowed"
+            title={running ? "A run is in progress" : "Run code (Ctrl+Enter)"}
+          >
             {running ? <Loader2 className="h-3 w-3 animate-spin" /> : <Play className="h-3 w-3" />}
             {running ? "Running..." : "Run"}
           </button>
+          {running && (
+            <button
+              onClick={handleStop}
+              className="flex items-center gap-1.5 rounded-md bg-destructive px-2.5 py-1 text-[11px] font-semibold text-destructive-foreground transition-all hover:brightness-110 active:scale-[0.97] animate-fade-in"
+              title="Stop run"
+            >
+              <Square className="h-3 w-3 fill-current" />
+              Stop
+            </button>
+          )}
           <button onClick={() => setTerminalOpen(o => !o)} className="flex h-7 w-7 items-center justify-center rounded-md text-muted-foreground transition-colors hover:bg-secondary hover:text-foreground active:scale-95" title={terminalOpen ? "Hide terminal" : "Show terminal"}>
             {terminalOpen ? <PanelBottomClose className="h-3.5 w-3.5" /> : <PanelBottom className="h-3.5 w-3.5" />}
           </button>
