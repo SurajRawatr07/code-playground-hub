@@ -138,23 +138,13 @@ const EditorPage = () => {
     }
 
     if (isWebLang) {
-      setShowPreview(true);
       const html = buildHtmlPreview(files, langId!);
-      const writePreview = () => {
-        const iframe = iframeRef.current;
-        if (!iframe) return;
-        // Force a fresh document on every Run
-        iframe.srcdoc = html;
-      };
-      // Allow the iframe to mount (showPreview just flipped) before writing
-      requestAnimationFrame(() => {
-        requestAnimationFrame(() => {
-          writePreview();
-          setOutput("");
-          setHistory(prev => [{ id: Date.now(), timestamp: new Date(), output: "Preview updated", error: "" }, ...prev].slice(0, 50));
-          setRunning(false);
-        });
-      });
+      // Force a fresh iframe instance every Run — guarantees a clean lifecycle,
+      // no race with prior document, and no reliance on requestAnimationFrame timing.
+      setPreviewSrc(html);
+      setPreviewKey(k => k + 1);
+      setShowPreview(true);
+      setOutput("");
       return;
     }
 
