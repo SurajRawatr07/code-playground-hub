@@ -395,7 +395,18 @@ const EditorPage = () => {
                     <div className="flex h-8 shrink-0 items-center border-b border-border bg-card px-3">
                       <span className="text-[11px] font-medium text-muted-foreground">Preview</span>
                     </div>
-                    <iframe ref={iframeRef} title="preview" className="flex-1 bg-white" sandbox="allow-scripts" />
+                    <iframe
+                      key={previewKey}
+                      ref={iframeRef}
+                      title="preview"
+                      className="flex-1 bg-white"
+                      sandbox="allow-scripts"
+                      srcDoc={previewSrc}
+                      onLoad={() => {
+                        setRunning(false);
+                        setHistory(prev => [{ id: Date.now(), timestamp: new Date(), output: "Preview updated", error: "" }, ...prev].slice(0, 50));
+                      }}
+                    />
                   </div>
                 )}
               </div>
