@@ -16,7 +16,7 @@ import { executeCode, buildHtmlPreview, isExecutable, UNSUPPORTED_MESSAGE } from
 import { useFileSystem, useEditorSettings, generateProjectId, saveProject } from "@/hooks/useFileSystem";
 import { useTheme, getMonacoTheme } from "@/contexts/ThemeContext";
 import {
-  ArrowLeft, Code2, Play, Loader2, Settings, Share2, Check,
+  ArrowLeft, Code2, Play, Square, Loader2, Settings, Share2, Check,
   PanelLeftClose, PanelLeft, PanelBottomClose, PanelBottom, Download,
   ZoomIn, ZoomOut, Save, User, LogOut, ChevronDown,
 } from "lucide-react";
