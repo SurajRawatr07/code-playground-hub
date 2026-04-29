@@ -175,6 +175,16 @@ const EditorPage = () => {
     setTimeout(() => setSaved(false), 1500);
   }, [saveNow]);
 
+  const handleStop = useCallback(() => {
+    // Invalidate any in-flight run so its results are discarded.
+    runIdRef.current++;
+    setRunning(false);
+    setShowPreview(false);
+    setPreviewSrc("");
+    setOutput("⏹ Run cancelled");
+    setErrorOutput("");
+  }, []);
+
   const handleShare = useCallback(() => {
     const id = generateProjectId();
     saveProject(id, files, langId!);
