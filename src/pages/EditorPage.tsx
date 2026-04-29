@@ -50,6 +50,8 @@ const EditorPage = () => {
   const [langDropdownOpen, setLangDropdownOpen] = useState(false);
   const [profileOpen, setProfileOpen] = useState(false);
   const [history, setHistory] = useState<HistoryEntry[]>([]);
+  const [previewSrc, setPreviewSrc] = useState("");
+  const [previewKey, setPreviewKey] = useState(0);
   const iframeRef = useRef<HTMLIFrameElement>(null);
   const editorRef = useRef<any>(null);
   const monacoRef = useRef<any>(null);
@@ -136,23 +138,13 @@ const EditorPage = () => {
     }
 
     if (isWebLang) {
-      setShowPreview(true);
       const html = buildHtmlPreview(files, langId!);
-      const writePreview = () => {
-        const iframe = iframeRef.current;
-        if (!iframe) return;
-        // Force a fresh document on every Run
-        iframe.srcdoc = html;
-      };
-      // Allow the iframe to mount (showPreview just flipped) before writing
-      requestAnimationFrame(() => {
-        requestAnimationFrame(() => {
-          writePreview();
-          setOutput("");
-          setHistory(prev => [{ id: Date.now(), timestamp: new Date(), output: "Preview updated", error: "" }, ...prev].slice(0, 50));
-          setRunning(false);
-        });
-      });
+      // Force a fresh iframe instance every Run — guarantees a clean lifecycle,
+      // no race with prior document, and no reliance on requestAnimationFrame timing.
+      setPreviewSrc(html);
+      setPreviewKey(k => k + 1);
+      setShowPreview(true);
+      setOutput("");
       return;
     }
 
@@ -403,7 +395,18 @@ const EditorPage = () => {
                     <div className="flex h-8 shrink-0 items-center border-b border-border bg-card px-3">
                       <span className="text-[11px] font-medium text-muted-foreground">Preview</span>
                     </div>
-                    <iframe ref={iframeRef} title="preview" className="flex-1 bg-white" sandbox="allow-scripts" />
+                    <iframe
+                      key={previewKey}
+                      ref={iframeRef}
+                      title="preview"
+                      className="flex-1 bg-white"
+                      sandbox="allow-scripts"
+                      srcDoc={previewSrc}
+                      onLoad={() => {
+                        setRunning(false);
+                        setHistory(prev => [{ id: Date.now(), timestamp: new Date(), output: "Preview updated", error: "" }, ...prev].slice(0, 50));
+                      }}
+                    />
                   </div>
                 )}
               </div>
