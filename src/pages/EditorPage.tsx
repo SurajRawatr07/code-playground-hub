@@ -123,6 +123,7 @@ const EditorPage = () => {
   }, [theme]);
 
   const handleRun = useCallback(async () => {
+    const myRunId = ++runIdRef.current;
     setRunning(true);
     setOutput("");
     setErrorOutput("");
@@ -132,6 +133,7 @@ const EditorPage = () => {
 
     if (!canExecute) {
       const msg = `⚠️ ${UNSUPPORTED_MESSAGE}`;
+      if (myRunId !== runIdRef.current) return;
       setErrorOutput(msg);
       setHistory(prev => [{ id: Date.now(), timestamp: new Date(), output: "", error: msg }, ...prev].slice(0, 50));
       setRunning(false);
@@ -140,8 +142,7 @@ const EditorPage = () => {
 
     if (isWebLang) {
       const html = buildHtmlPreview(files, langId!);
-      // Force a fresh iframe instance every Run — guarantees a clean lifecycle,
-      // no race with prior document, and no reliance on requestAnimationFrame timing.
+      if (myRunId !== runIdRef.current) return;
       setPreviewSrc(html);
       setPreviewKey(k => k + 1);
       setShowPreview(true);
@@ -150,6 +151,7 @@ const EditorPage = () => {
     }
 
     const result = await executeCode(langId!, files[activeFile] || "", files);
+    if (myRunId !== runIdRef.current) return;
     setOutput(result.output);
     setErrorOutput(result.error);
     setHistory(prev => [{ id: Date.now(), timestamp: new Date(), output: result.output, error: result.error }, ...prev].slice(0, 50));
