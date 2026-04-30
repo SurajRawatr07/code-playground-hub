@@ -126,6 +126,24 @@ public class Main {
 }`,
   },
   {
+    id: "c",
+    name: "C",
+    icon: devicon("c/c-original.svg"),
+    color: "hsl(220 50% 50%)",
+    monacoLang: "c",
+    category: "Programming",
+    placeholder: `// C Playground (Simulated)
+#include <stdio.h>
+
+int main() {
+    printf("Hello from C!\\n");
+    for (int i = 1; i <= 5; i++) {
+        printf("Count: %d\\n", i);
+    }
+    return 0;
+}`,
+  },
+  {
     id: "cpp",
     name: "C++",
     icon: devicon("cplusplus/cplusplus-original.svg"),
@@ -146,43 +164,6 @@ int main() {
 }`,
   },
   {
-    id: "c",
-    name: "C",
-    icon: devicon("c/c-original.svg"),
-    color: "hsl(220 50% 50%)",
-    monacoLang: "c",
-    category: "Programming",
-    placeholder: `// C Playground (Simulated)
-#include <stdio.h>
-
-int main() {
-    printf("Hello from C!\\n");
-    for (int i = 1; i <= 5; i++) {
-        printf("Count: %d\\n", i);
-    }
-    return 0;
-}`,
-  },
-  {
-    id: "csharp",
-    name: "C#",
-    icon: devicon("csharp/csharp-original.svg"),
-    color: "hsl(270 60% 50%)",
-    monacoLang: "csharp",
-    category: "Programming",
-    placeholder: `// C# Playground (Simulated)
-using System;
-
-class Program {
-    static void Main() {
-        Console.WriteLine("Hello from C#!");
-        for (int i = 0; i < 3; i++) {
-            Console.WriteLine($"Iteration {i + 1}");
-        }
-    }
-}`,
-  },
-  {
     id: "php",
     name: "PHP",
     icon: devicon("php/php-original.svg"),
@@ -198,20 +179,6 @@ foreach ($fruits as $fruit) {
     echo "Fruit: $fruit\\n";
 }
 ?>`,
-  },
-  {
-    id: "ruby",
-    name: "Ruby",
-    icon: devicon("ruby/ruby-original.svg"),
-    color: "hsl(0 65% 50%)",
-    monacoLang: "ruby",
-    category: "Programming",
-    placeholder: `# Ruby Playground (Simulated)
-puts "Hello from Ruby!"
-
-3.times do |i|
-  puts "Iteration #{i + 1}"
-end`,
   },
   {
     id: "nodejs",
@@ -245,46 +212,20 @@ function App() {
 }`,
   },
   {
-    id: "lua",
-    name: "Lua",
-    icon: devicon("lua/lua-original.svg"),
-    color: "hsl(240 60% 55%)",
-    monacoLang: "lua",
-    category: "Programming",
-    placeholder: `-- Lua Playground (Simulated)
-print("Hello from Lua!")
-
-for i = 1, 5 do
-  print("Count: " .. i)
-end`,
-  },
-  {
-    id: "mysql",
-    name: "MySQL",
+    id: "sql",
+    name: "SQL",
     icon: devicon("mysql/mysql-original.svg"),
     color: "hsl(200 70% 45%)",
     monacoLang: "sql",
     category: "Databases",
-    placeholder: `-- MySQL Playground (Simulated)
+    placeholder: `-- SQL Playground (Simulated)
 SELECT * FROM users WHERE active = 1;
 
 CREATE TABLE products (
-  id INT PRIMARY KEY AUTO_INCREMENT,
+  id INT PRIMARY KEY,
   name VARCHAR(100),
   price DECIMAL(10,2)
 );`,
-  },
-  {
-    id: "postgresql",
-    name: "PostgreSQL",
-    icon: devicon("postgresql/postgresql-original.svg"),
-    color: "hsl(210 55% 45%)",
-    monacoLang: "sql",
-    category: "Databases",
-    placeholder: `-- PostgreSQL Playground (Simulated)
-SELECT name, age FROM employees
-WHERE department = 'Engineering'
-ORDER BY name ASC;`,
   },
   {
     id: "mongodb",
@@ -301,36 +242,5 @@ db.products.insertOne({
   price: 29.99,
   category: "Tools"
 })`,
-  },
-  {
-    id: "assembly",
-    name: "Assembly",
-    icon: devicon("aarch64/aarch64-original.svg"),
-    color: "hsl(0 0% 50%)",
-    monacoLang: "plaintext",
-    category: "Programming",
-    placeholder: `; Assembly Playground (Simulated)
-section .text
-global _start
-
-_start:
-    mov eax, 4
-    mov ebx, 1
-    mov ecx, msg
-    int 0x80`,
-  },
-  {
-    id: "plsql",
-    name: "PL/SQL",
-    icon: devicon("oracle/oracle-original.svg"),
-    color: "hsl(10 60% 50%)",
-    monacoLang: "sql",
-    category: "Databases",
-    placeholder: `-- PL/SQL Playground (Simulated)
-DECLARE
-  v_name VARCHAR2(50) := 'World';
-BEGIN
-  DBMS_OUTPUT.PUT_LINE('Hello, ' || v_name || '!');
-END;`,
   },
 ];
