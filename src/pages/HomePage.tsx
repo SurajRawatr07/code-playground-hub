@@ -10,6 +10,7 @@ import { TemplatesSection } from "@/components/TemplatesSection";
 import { HowItWorksSection } from "@/components/HowItWorksSection";
 import { AuthCTASection } from "@/components/AuthCTASection";
 import { WhyChooseUs } from "@/components/WhyChooseUs";
+import { FooterCredit } from "@/components/FooterCredit";
 
 import { languages, Language } from "@/lib/languages";
 
@@ -56,7 +57,7 @@ const HomePage = () => {
       <HowItWorksSection />
       <AuthCTASection />
       <WhyChooseUs />
-      
+      <FooterCredit />
     </div>
   );
 };
