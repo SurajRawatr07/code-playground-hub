@@ -122,6 +122,21 @@ const EditorPage = () => {
     if (monacoRef.current) monacoRef.current.editor.setTheme(getMonacoTheme(theme));
   }, [theme]);
 
+  // Live preview auto-update for HTML/CSS/JS only
+  useEffect(() => {
+    if (!isWebLang) {
+      setShowPreview(false);
+      return;
+    }
+    const t = setTimeout(() => {
+      const html = buildHtmlPreview(files, langId!);
+      setPreviewSrc(html);
+      setPreviewKey(k => k + 1);
+      setShowPreview(true);
+    }, 300);
+    return () => clearTimeout(t);
+  }, [files, isWebLang, langId]);
+
   const handleRun = useCallback(async () => {
     const myRunId = ++runIdRef.current;
     setRunning(true);

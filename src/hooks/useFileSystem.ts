@@ -33,9 +33,8 @@ function getDefaultFiles(langId: string): ProjectFiles {
 function getExtension(langId: string): string {
   const map: Record<string, string> = {
     javascript: "js", nodejs: "js", python: "py", cpp: "cpp", java: "java",
-    c: "c", csharp: "cs", php: "php", ruby: "rb", lua: "lua",
-    assembly: "asm", mysql: "sql", postgresql: "sql", mongodb: "js",
-    plsql: "sql", html: "html", css: "css", react: "jsx",
+    c: "c", php: "php", mongodb: "js", sql: "sql",
+    html: "html", css: "css", react: "jsx",
   };
   return map[langId] || "txt";
 }
