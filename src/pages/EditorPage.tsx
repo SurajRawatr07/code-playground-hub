@@ -59,6 +59,8 @@ const EditorPage = () => {
   const langDropdownRef = useRef<HTMLDivElement>(null);
   const profileRef = useRef<HTMLDivElement>(null);
 
+  const [mobileTab, setMobileTab] = useState<"index.html" | "style.css" | "script.js">("index.html");
+
   const isWebLang = langId === "html" || langId === "css" || langId === "javascript";
   const canExecute = isExecutable(langId || "");
   const monacoLang = activeFile.endsWith(".html") ? "html"
@@ -395,15 +397,110 @@ const EditorPage = () => {
       {/* Main Area */}
       <div className="flex flex-1 overflow-hidden">
         {sidebarOpen && (
-          <div className="w-52 shrink-0">
+          <div className="hidden md:block w-52 shrink-0">
             <FileExplorer files={files} activeFile={activeFile} onSelect={openFile} onCreate={createFile} onDelete={deleteFile} onRename={renameFile} />
           </div>
         )}
 
         <div className="flex flex-1 flex-col overflow-hidden">
-          <FileTabs openFiles={openFiles} activeFile={activeFile} onSelect={openFile} onClose={closeFile} />
+          <div className="hidden md:block">
+            <FileTabs openFiles={openFiles} activeFile={activeFile} onSelect={openFile} onClose={closeFile} />
+          </div>
 
-          <ResizablePanelGroup direction="vertical" className="flex-1">
+          {/* Mobile stacked layout: tabs + editor + preview */}
+          {isWebLang && (
+            <div className="flex flex-1 flex-col overflow-hidden md:hidden">
+              <div className="flex shrink-0 border-b border-border bg-card">
+                {([
+                  { id: "index.html", label: "HTML" },
+                  { id: "style.css", label: "CSS" },
+                  { id: "script.js", label: "JS" },
+                ] as const).map(t => (
+                  <button
+                    key={t.id}
+                    onClick={() => { setMobileTab(t.id); openFile(t.id); }}
+                    className={`flex-1 min-h-[44px] px-3 text-xs font-medium transition-colors ${
+                      mobileTab === t.id
+                        ? "bg-background text-accent border-b-2 border-accent"
+                        : "text-muted-foreground hover:text-foreground hover:bg-secondary/50"
+                    }`}
+                  >
+                    {t.label}
+                  </button>
+                ))}
+              </div>
+
+              <div className="flex-1 min-h-0 overflow-hidden">
+                <Editor
+                  height="100%"
+                  language={mobileTab.endsWith(".html") ? "html" : mobileTab.endsWith(".css") ? "css" : "javascript"}
+                  value={files[mobileTab] || ""}
+                  onChange={v => updateFile(mobileTab, v ?? "")}
+                  theme={getMonacoTheme(theme)}
+                  onMount={handleEditorMount}
+                  options={{
+                    fontSize: settings.fontSize,
+                    fontFamily: "'JetBrains Mono', 'Fira Code', 'Cascadia Code', monospace",
+                    minimap: { enabled: false },
+                    padding: { top: 12, bottom: 12 },
+                    lineNumbers: "on",
+                    scrollBeyondLastLine: false,
+                    wordWrap: "on",
+                    tabSize: settings.tabSize,
+                    smoothScrolling: true,
+                  }}
+                />
+              </div>
+
+              <div className="flex h-[300px] shrink-0 flex-col border-t border-border">
+                <div className="flex h-8 shrink-0 items-center border-b border-border bg-card px-3">
+                  <span className="text-[11px] font-medium text-muted-foreground">Preview</span>
+                </div>
+                <iframe
+                  key={previewKey}
+                  title="preview-mobile"
+                  className="flex-1 bg-white"
+                  sandbox="allow-scripts"
+                  srcDoc={previewSrc}
+                />
+              </div>
+            </div>
+          )}
+
+          {/* Mobile stacked layout for non-web languages: editor + terminal */}
+          {!isWebLang && (
+            <div className="flex flex-1 flex-col overflow-hidden md:hidden">
+              <FileTabs openFiles={openFiles} activeFile={activeFile} onSelect={openFile} onClose={closeFile} />
+              <div className="flex-1 min-h-0 overflow-hidden">
+                <Editor
+                  height="100%"
+                  language={monacoLang}
+                  value={files[activeFile] || ""}
+                  onChange={v => updateFile(activeFile, v ?? "")}
+                  theme={getMonacoTheme(theme)}
+                  onMount={handleEditorMount}
+                  options={{
+                    fontSize: settings.fontSize,
+                    fontFamily: "'JetBrains Mono', 'Fira Code', 'Cascadia Code', monospace",
+                    minimap: { enabled: false },
+                    padding: { top: 12, bottom: 12 },
+                    lineNumbers: "on",
+                    scrollBeyondLastLine: false,
+                    wordWrap: "on",
+                    tabSize: settings.tabSize,
+                    smoothScrolling: true,
+                  }}
+                />
+              </div>
+              {terminalOpen && (
+                <div className="h-[35vh] shrink-0 border-t border-border p-2">
+                  <Terminal output={output} errorOutput={errorOutput} onClear={handleClear} history={history} />
+                </div>
+              )}
+            </div>
+          )}
+
+          <ResizablePanelGroup direction="vertical" className="hidden md:flex flex-1">
             <ResizablePanel defaultSize={terminalOpen ? 65 : 100} minSize={30}>
               <div className="flex h-full overflow-hidden">
                 <div className={`flex flex-col overflow-hidden ${showPreview && isWebLang ? "w-1/2 border-r border-border" : "flex-1"}`}>
