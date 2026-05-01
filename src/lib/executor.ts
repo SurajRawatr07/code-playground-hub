@@ -50,57 +50,71 @@ function executeJavaScript(code: string): ExecutionResult {
   }
 }
 
+const ERROR_OVERLAY = `
+<script>
+(function(){
+  function showError(msg){
+    try {
+      var existing = document.getElementById('__preview_error__');
+      if (existing) existing.remove();
+      var div = document.createElement('div');
+      div.id = '__preview_error__';
+      div.style.cssText = 'position:fixed;left:0;right:0;bottom:0;padding:10px 14px;background:rgba(220,38,38,0.95);color:#fff;font:12px/1.4 system-ui,sans-serif;z-index:2147483647;white-space:pre-wrap;max-height:40%;overflow:auto;';
+      div.textContent = 'Preview Error: ' + msg;
+      (document.body || document.documentElement).appendChild(div);
+    } catch(e) {}
+  }
+  window.addEventListener('error', function(e){ showError(e.message || String(e.error || e)); });
+  window.addEventListener('unhandledrejection', function(e){ showError(String(e.reason)); });
+})();
+<\/script>`;
+
+function stripExternalLocalRefs(html: string): string {
+  // Remove <link rel="stylesheet" href="style.css"> and <script src="script.js"></script> style refs to local files (we inline them)
+  return html
+    .replace(/<link[^>]+href=["'](?:\.\/)?(?:style\.css|styles\.css|main\.css)["'][^>]*>/gi, "")
+    .replace(/<script[^>]+src=["'](?:\.\/)?(?:script\.js|main\.js|index\.js|app\.js)["'][^>]*><\/script>/gi, "");
+}
+
 export function buildHtmlPreview(files: ProjectFiles, languageId: string): string {
-  if (languageId === "html" || languageId === "css" || languageId === "javascript") {
-    const html = files["index.html"] || "";
-    const css = files["style.css"] || "";
-    const js =
-      files["script.js"] ||
-      files["main.js"] ||
-      files["index.js"] ||
-      (languageId === "javascript" ? Object.values(files)[0] || "" : "");
-
-    if (html) {
-      let result = html;
-      if (css && !/<link[^>]*style\.css/i.test(result)) {
-        result = result.includes("</head>")
-          ? result.replace("</head>", `<style>${css}</style></head>`)
-          : `<style>${css}</style>` + result;
-      } else if (css) {
-        result = result.replace(/<link[^>]*style\.css[^>]*>/i, `<style>${css}</style>`);
-      }
-      if (js && !/<script[^>]*script\.js/i.test(result)) {
-        result = result.includes("</body>")
-          ? result.replace("</body>", `<script>${js}<\/script></body>`)
-          : result + `<script>${js}<\/script>`;
-      } else if (js) {
-        result = result.replace(/<script[^>]*script\.js[^>]*><\/script>/i, `<script>${js}<\/script>`);
-      }
-      return result;
-    }
-
-    if (css) {
-      return `<!DOCTYPE html><html><head><style>${css}</style></head><body><div class="card">CSS Preview ✨</div></body></html>`;
-    }
-
-    if (js) {
-      return `<!DOCTYPE html><html><head><meta charset="utf-8"><style>body{font-family:system-ui;padding:1rem;background:#0b0b12;color:#e6e6e6;}</style></head><body><script>
-        (function(){
-          const _log = (cls, args) => {
-            const p = document.createElement('div');
-            p.className = cls;
-            p.textContent = args.map(a => { try { return typeof a === 'object' ? JSON.stringify(a) : String(a); } catch(e){ return String(a); } }).join(' ');
-            document.body.appendChild(p);
-          };
-          const c = console;
-          console.log = (...a)=>{_log('log',a); c.log(...a);};
-          console.error = (...a)=>{_log('err',a); c.error(...a);};
-          console.warn = (...a)=>{_log('warn',a); c.warn(...a);};
-          try { ${js} } catch(e){ _log('err',[e.message]); }
-        })();
-      <\/script></body></html>`;
-    }
+  if (!(languageId === "html" || languageId === "css" || languageId === "javascript")) {
+    return "";
   }
 
-  return "";
+  const html = files["index.html"] || "";
+  const css =
+    files["style.css"] ||
+    files["styles.css"] ||
+    files["main.css"] ||
+    (languageId === "css" ? Object.values(files).find((_, i) => Object.keys(files)[i].endsWith(".css")) || "" : "");
+  const js =
+    files["script.js"] ||
+    files["main.js"] ||
+    files["index.js"] ||
+    files["app.js"] ||
+    (languageId === "javascript" ? Object.values(files).find((_, i) => Object.keys(files)[i].endsWith(".js")) || "" : "");
+
+  const styleTag = css ? `<style>${css}</style>` : "";
+  const scriptTag = js ? `<script>\ntry {\n${js}\n} catch (e) { (window.onerror||function(){})(e.message); throw e; }\n<\/script>` : "";
+
+  if (html && html.trim()) {
+    let result = stripExternalLocalRefs(html);
+    // Inject CSS into head
+    if (styleTag) {
+      result = result.includes("</head>")
+        ? result.replace("</head>", `${styleTag}</head>`)
+        : `<head>${styleTag}</head>` + result;
+    }
+    // Inject error overlay + JS before </body>
+    const tail = `${ERROR_OVERLAY}${scriptTag}`;
+    result = result.includes("</body>")
+      ? result.replace("</body>", `${tail}</body>`)
+      : result + tail;
+    return result;
+  }
+
+  // No HTML file — synthesize a document
+  return `<!DOCTYPE html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">${styleTag}</head><body>${
+    languageId === "css" ? '<div class="card">CSS Preview ✨</div>' : ""
+  }${ERROR_OVERLAY}${scriptTag}</body></html>`;
 }
