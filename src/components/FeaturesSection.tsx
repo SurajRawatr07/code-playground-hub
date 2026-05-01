@@ -1,4 +1,4 @@
-import { Zap, Globe, Save, Shield, Monitor } from "lucide-react";
+import { Zap, Globe, Save, Shield, Monitor, AppWindow } from "lucide-react";
 
 const features = [
   { icon: Zap, title: "Fast Execution", desc: "Run code instantly with optimized execution engine." },
@@ -6,10 +6,11 @@ const features = [
   { icon: Save, title: "Save Projects", desc: "Auto-save your work and access it anytime." },
   { icon: Shield, title: "Secure Environment", desc: "Sandboxed execution keeps your code safe." },
   { icon: Monitor, title: "VS Code-like UI", desc: "Professional editor with syntax highlighting and autocomplete." },
+  { icon: AppWindow, title: "Live Preview", desc: "Instantly preview HTML, CSS, and JavaScript projects in real time." },
 ];
 
 export const FeaturesSection = () => (
-  <section className="mx-auto max-w-6xl px-4 py-20">
+  <section className="mx-auto w-full max-w-6xl overflow-x-hidden px-4 py-14 sm:py-20">
     <h2 className="mb-2 text-center text-2xl font-bold text-foreground sm:text-3xl animate-fade-up">
       ⚡ Powerful Features
     </h2>
