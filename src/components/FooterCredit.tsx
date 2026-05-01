@@ -1,4 +1,4 @@
-import { Instagram, Linkedin } from "lucide-react";
+import { Instagram, Linkedin, Github } from "lucide-react";
 
 export const FooterCredit = () => (
   <div className="w-full border-t border-border/50 bg-background/40 backdrop-blur-sm">
@@ -27,6 +27,15 @@ export const FooterCredit = () => (
           className="text-muted-foreground transition-all duration-200 hover:text-primary hover:drop-shadow-[0_0_6px_hsl(var(--primary))]"
         >
           <Linkedin className="h-5 w-5 sm:h-[18px] sm:w-[18px]" />
+        </a>
+        <a
+          href="https://github.com/"
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label="GitHub"
+          className="text-muted-foreground transition-all duration-200 hover:text-accent hover:drop-shadow-[0_0_6px_hsl(var(--accent))]"
+        >
+          <Github className="h-5 w-5 sm:h-[18px] sm:w-[18px]" />
         </a>
       </div>
     </div>
