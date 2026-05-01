@@ -397,7 +397,7 @@ const EditorPage = () => {
       {/* Main Area */}
       <div className="flex flex-1 overflow-hidden">
         {sidebarOpen && (
-          <div className="w-52 shrink-0">
+          <div className="hidden md:block w-52 shrink-0">
             <FileExplorer files={files} activeFile={activeFile} onSelect={openFile} onCreate={createFile} onDelete={deleteFile} onRename={renameFile} />
           </div>
         )}
