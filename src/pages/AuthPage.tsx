@@ -64,14 +64,79 @@ const AuthPage = () => {
               className="rounded-lg border border-input bg-secondary/50 px-4 py-3 text-sm text-foreground placeholder:text-muted-foreground outline-none transition-colors focus:border-accent focus:ring-1 focus:ring-accent"
             />
           )}
-          <input
-            type="email"
-            placeholder="Email address"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            required
-            className="rounded-lg border border-input bg-secondary/50 px-4 py-3 text-sm text-foreground placeholder:text-muted-foreground outline-none transition-colors focus:border-accent focus:ring-1 focus:ring-accent"
-          />
+          <div className="flex flex-col gap-1.5">
+            <input
+              type="email"
+              placeholder="Email address"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              required
+              className="rounded-lg border border-input bg-secondary/50 px-4 py-3 text-sm text-foreground placeholder:text-muted-foreground outline-none transition-colors focus:border-accent focus:ring-1 focus:ring-accent"
+            />
+            {email.length > 0 && (
+              <p
+                className={`flex items-center gap-1 px-1 text-xs animate-fade-in break-words ${
+                  emailValid ? "text-primary" : "text-destructive"
+                }`}
+              >
+                {emailValid ? <Check className="h-3 w-3 shrink-0" /> : <X className="h-3 w-3 shrink-0" />}
+                <span>{emailValid ? "Valid email" : "Invalid email format"}</span>
+              </p>
+            )}
+          </div>
+
+          <div className="flex flex-col gap-1.5">
+            <input
+              type="password"
+              placeholder="Password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              required
+              className="rounded-lg border border-input bg-secondary/50 px-4 py-3 text-sm text-foreground placeholder:text-muted-foreground outline-none transition-colors focus:border-accent focus:ring-1 focus:ring-accent"
+            />
+
+            {!isLogin && password.length > 0 && (
+              <div className="flex flex-col gap-1 px-1 animate-fade-in">
+                <div className="h-1 w-full overflow-hidden rounded-full bg-secondary">
+                  <div
+                    className={`h-full rounded-full transition-all duration-300 ease-out ${
+                      strength === 1
+                        ? "w-1/3 bg-destructive"
+                        : strength === 2
+                        ? "w-2/3 bg-amber-500"
+                        : strength === 3
+                        ? "w-full bg-primary"
+                        : "w-0"
+                    }`}
+                  />
+                </div>
+                <p
+                  className={`text-xs ${
+                    strength === 3
+                      ? "text-primary"
+                      : strength === 2
+                      ? "text-amber-500"
+                      : "text-destructive"
+                  }`}
+                >
+                  {strength === 3 ? "Strong" : strength === 2 ? "Medium" : "Weak"}
+                </p>
+              </div>
+            )}
+
+            {password.length > 0 && (
+              <p
+                className={`flex items-center gap-1 px-1 text-xs animate-fade-in break-words ${
+                  passwordValid ? "text-primary" : "text-destructive"
+                }`}
+              >
+                {passwordValid ? <Check className="h-3 w-3 shrink-0" /> : <X className="h-3 w-3 shrink-0" />}
+                <span>
+                  {passwordValid ? "Strong password" : "Password requirements not met"}
+                </span>
+              </p>
+            )}
+          </div>
           <input
             type="password"
             placeholder="Password"
