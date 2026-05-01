@@ -27,6 +27,10 @@ const AuthPage = () => {
   const { login } = useAuth();
   const navigate = useNavigate();
 
+  const emailValid = useMemo(() => EMAIL_RE.test(email.trim()), [email]);
+  const strength = useMemo(() => getPasswordStrength(password), [password]);
+  const passwordValid = strength === 3;
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
