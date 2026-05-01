@@ -1,8 +1,22 @@
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { useAuth } from "@/contexts/AuthContext";
 import { useNavigate } from "react-router-dom";
-import { Code2, ArrowRight, Loader2 } from "lucide-react";
+import { Code2, ArrowRight, Loader2, Check, X } from "lucide-react";
 import { ThemeToggle } from "@/components/ThemeToggle";
+
+const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+const getPasswordStrength = (pwd: string): 0 | 1 | 2 | 3 => {
+  if (!pwd) return 0;
+  const hasLower = /[a-z]/.test(pwd);
+  const hasUpper = /[A-Z]/.test(pwd);
+  const hasNumber = /\d/.test(pwd);
+  const hasSpecial = /[^A-Za-z0-9]/.test(pwd);
+  const hasLetter = hasLower || hasUpper;
+  if (pwd.length >= 8 && hasLower && hasUpper && hasNumber && hasSpecial) return 3;
+  if (pwd.length >= 6 && hasLetter && hasNumber) return 2;
+  return 1;
+};
 
 const AuthPage = () => {
   const [isLogin, setIsLogin] = useState(true);
