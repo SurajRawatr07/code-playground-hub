@@ -10,7 +10,7 @@ const features = [
 ];
 
 export const FeaturesSection = () => (
-  <section className="mx-auto max-w-6xl px-4 py-20">
+  <section className="mx-auto w-full max-w-6xl overflow-x-hidden px-4 py-14 sm:py-20">
     <h2 className="mb-2 text-center text-2xl font-bold text-foreground sm:text-3xl animate-fade-up">
       ⚡ Powerful Features
     </h2>
