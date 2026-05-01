@@ -1,4 +1,4 @@
-import { Zap, Globe, Save, Shield, Monitor } from "lucide-react";
+import { Zap, Globe, Save, Shield, Monitor, AppWindow } from "lucide-react";
 
 const features = [
   { icon: Zap, title: "Fast Execution", desc: "Run code instantly with optimized execution engine." },
@@ -6,6 +6,7 @@ const features = [
   { icon: Save, title: "Save Projects", desc: "Auto-save your work and access it anytime." },
   { icon: Shield, title: "Secure Environment", desc: "Sandboxed execution keeps your code safe." },
   { icon: Monitor, title: "VS Code-like UI", desc: "Professional editor with syntax highlighting and autocomplete." },
+  { icon: AppWindow, title: "Live Preview", desc: "Instantly preview HTML, CSS, and JavaScript projects in real time." },
 ];
 
 export const FeaturesSection = () => (
