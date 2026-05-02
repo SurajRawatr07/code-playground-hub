@@ -1,4 +1,4 @@
-import { Code2, Github, Twitter, Linkedin } from "lucide-react";
+import { Code2, Github, Instagram, Linkedin } from "lucide-react";
 
 export const Footer = () => (
   <footer className="border-t border-border bg-card/50 backdrop-blur-sm">
@@ -31,21 +31,21 @@ export const Footer = () => (
         </div>
         <div>
           <h4 className="mb-3 text-xs font-semibold uppercase tracking-wider text-muted-foreground">Connect</h4>
-          <div className="flex gap-3">
-            <a href="#" className="flex h-8 w-8 items-center justify-center rounded-lg bg-secondary text-muted-foreground transition-colors hover:bg-muted hover:text-foreground">
+          <div className="flex justify-center gap-3 sm:justify-start">
+            <a href="https://github.com/SurajRawatr07" target="_blank" rel="noopener noreferrer" aria-label="GitHub" className="flex h-8 w-8 items-center justify-center rounded-lg bg-secondary text-muted-foreground transition-colors hover:bg-muted hover:text-foreground">
               <Github className="h-4 w-4" />
             </a>
-            <a href="#" className="flex h-8 w-8 items-center justify-center rounded-lg bg-secondary text-muted-foreground transition-colors hover:bg-muted hover:text-foreground">
-              <Twitter className="h-4 w-4" />
+            <a href="https://www.instagram.com/surajrawat07/?hl=en" target="_blank" rel="noopener noreferrer" aria-label="Instagram" className="flex h-8 w-8 items-center justify-center rounded-lg bg-secondary text-muted-foreground transition-colors hover:bg-muted hover:text-foreground">
+              <Instagram className="h-4 w-4" />
             </a>
-            <a href="#" className="flex h-8 w-8 items-center justify-center rounded-lg bg-secondary text-muted-foreground transition-colors hover:bg-muted hover:text-foreground">
+            <a href="https://www.linkedin.com/in/suraj-rawat-30513b340" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn" className="flex h-8 w-8 items-center justify-center rounded-lg bg-secondary text-muted-foreground transition-colors hover:bg-muted hover:text-foreground">
               <Linkedin className="h-4 w-4" />
             </a>
           </div>
         </div>
       </div>
       <div className="mt-10 border-t border-border pt-6 text-center text-[11px] text-muted-foreground">
-        © {new Date().getFullYear()} OneIDE. All rights reserved.
+        © 2026 OneIDE. All rights reserved.
       </div>
     </div>
   </footer>
