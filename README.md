@@ -111,7 +111,7 @@ git clone https://github.com/SurajRawatr07/code-playground-hub.git
 
 ---
 
-## 2️⃣ Navigate To Project Folder
+## 2️ Navigate To Project Folder
 
 ```bash
 cd code-playground-hub
