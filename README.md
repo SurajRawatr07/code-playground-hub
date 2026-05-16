@@ -55,7 +55,7 @@
 
 #  Supported Languages
 
-## ✅ Currently Available
+##  Currently Available
 
 - HTML
 - CSS
