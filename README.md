@@ -63,7 +63,7 @@
 
 ---
 
-## ⚡ Coming Soon
+##  Coming Soon
 
 - Python
 - C
