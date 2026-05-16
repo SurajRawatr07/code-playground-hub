@@ -1,13 +1,12 @@
 <div align="center">
 
-# Code Playground Hub
-
+# 💻 Code Playground Hub
 
 <img src="https://readme-typing-svg.herokuapp.com?font=Poppins&size=28&pause=1000&color=00C2FF&center=true&vCenter=true&width=800&lines=Online+Code+Editor+%26+Compiler;Run+Code+In+Multiple+Languages;Modern+Developer+Playground;Built+For+Developers+%F0%9F%9A%80" />
 
 <br>
 
-###  Modern Online Coding Playground Platform
+### 🚀 Modern Online Coding Playground Platform
 
 <p align="center">
   A modern and responsive online code playground built for developers to write, run, and test code in multiple programming languages with a clean UI and smooth coding experience.
@@ -39,7 +38,7 @@
 
 ---
 
-#  Features
+# ✨ Features
 
 ✔️ Online Code Editor  
 ✔️ Multi Language Support  
@@ -54,10 +53,9 @@
 
 ---
 
-#  Supported Languages
+# 🧠 Supported Languages
 
-
-##  Currently Available
+## ✅ Currently Available
 
 - HTML
 - CSS
@@ -65,7 +63,7 @@
 
 ---
 
-##  Coming Soon
+## ⚡ Coming Soon
 
 - Python
 - C
@@ -78,9 +76,9 @@
 
 ---
 
-#  Tech Stack
+# 🛠️ Tech Stack
 
-##  Frontend
+## 🎨 Frontend
 
 - HTML5
 - CSS3
@@ -88,7 +86,7 @@
 
 ---
 
-#  Project Structure
+# 📂 Project Structure
 
 ```bash
 code-playground-hub/
@@ -105,7 +103,7 @@ code-playground-hub/
 
 # ⚡ Getting Started
 
-## 1️ Clone Repository
+## 1️⃣ Clone Repository
 
 ```bash
 git clone https://github.com/SurajRawatr07/code-playground-hub.git
@@ -113,7 +111,7 @@ git clone https://github.com/SurajRawatr07/code-playground-hub.git
 
 ---
 
-## 2️ Navigate To Project Folder
+## 2️⃣ Navigate To Project Folder
 
 ```bash
 cd code-playground-hub
@@ -204,6 +202,6 @@ If you like this project, give it a ⭐ on GitHub and support the project.
 
 <img src="https://capsule-render.vercel.app/api?type=waving&color=00C2FF&height=120&section=footer"/>
 
-# ❤️ Made With Passion By Suraj Rawat
+# Made By Suraj Rawat
 
 </div>
