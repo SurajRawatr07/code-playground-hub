@@ -76,7 +76,7 @@
 
 ---
 
-# 🛠️ Tech Stack
+#  Tech Stack
 
 ##  Frontend
 
