@@ -86,7 +86,7 @@
 
 ---
 
-# 📂 Project Structure
+#  Project Structure
 
 ```bash
 code-playground-hub/
