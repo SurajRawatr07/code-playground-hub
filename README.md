@@ -1,126 +1,207 @@
-# 🚀 Code Playground Hub
+<div align="center">
 
-> A powerful, browser-based code editor that lets users write, preview, and experiment with HTML, CSS, and JavaScript in real-time.
+# 💻 Code Playground Hub
 
----
+<img src="https://readme-typing-svg.herokuapp.com?font=Poppins&size=28&pause=1000&color=00C2FF&center=true&vCenter=true&width=800&lines=Online+Code+Editor+%26+Compiler;Run+Code+In+Multiple+Languages;Modern+Developer+Playground;Built+For+Developers+%F0%9F%9A%80" />
 
-## 🌐 Overview
+<br>
 
-**Code Playground Hub** is an interactive web application designed to simplify front-end development and learning. It provides a seamless environment where users can write code and instantly visualize output — all within the browser.
+### 🚀 Modern Online Coding Playground Platform
 
-This project is ideal for:
-- 💡 Beginners learning web development
-- 🧪 Developers testing UI ideas quickly
-- 🎯 Students practicing live coding
+<p align="center">
+  A modern and responsive online code playground built for developers to write, run, and test code in multiple programming languages with a clean UI and smooth coding experience.
+</p>
 
----
+<br>
 
-## ✨ Key Features
+<a href="https://onlinecoderuner.netlify.app/">
+  <img src="https://img.shields.io/badge/🌐_Live_Website-Visit_Now-0A66FF?style=for-the-badge&logo=googlechrome&logoColor=white" />
+</a>
 
-- ⚡ **Real-Time Preview** – Instantly see output as you write code  
-- 🧑‍💻 **Multi-Panel Editor** – Separate sections for HTML, CSS, JS  
-- 🎨 **Clean UI/UX** – Minimal, distraction-free interface  
-- 📱 **Responsive Design** – Works on all screen sizes  
-- 🔄 **Live Rendering Engine** – No page reload required  
-- 🚀 **Lightweight Performance** – Fast and efficient  
+<a href="https://github.com/SurajRawatr07/code-playground-hub">
+  <img src="https://img.shields.io/badge/💻_GitHub-Source_Code-000?style=for-the-badge&logo=github&logoColor=white" />
+</a>
 
----
+<br><br>
 
-## 🛠️ Tech Stack
+<img src="https://img.shields.io/badge/HTML5-Markup-E34F26?style=flat-square&logo=html5&logoColor=white" />
+<img src="https://img.shields.io/badge/CSS3-Styling-1572B6?style=flat-square&logo=css3&logoColor=white" />
+<img src="https://img.shields.io/badge/JavaScript-Logic-F7DF1E?style=flat-square&logo=javascript&logoColor=black" />
 
-| Technology | Role |
-|-----------|------|
-| HTML5     | Structure |
-| CSS3      | Styling & Layout |
-| JavaScript | Functionality & Logic |
+<br><br>
 
----
+<img src="https://img.shields.io/badge/Status-Active-success?style=for-the-badge" />
+<img src="https://img.shields.io/badge/Version-1.0-blue?style=for-the-badge" />
+<img src="https://img.shields.io/badge/Open_Source-Love-red?style=for-the-badge" />
 
-## 🧩 Project Architecture
-
-
-User Input → Code Editors → JavaScript Engine → Live Preview Frame
-
-
-- User writes code in editors  
-- JS captures input  
-- Output is injected into iframe  
-- Preview updates in real-time  
+</div>
 
 ---
 
-## 📂 Folder Structure
+# ✨ Features
 
+✔️ Online Code Editor  
+✔️ Multi Language Support  
+✔️ Real-Time Code Execution  
+✔️ Clean Developer UI  
+✔️ Responsive Design  
+✔️ Fast & Lightweight Experience  
+✔️ Smooth User Interface  
+✔️ Interactive Coding Playground  
+✔️ Syntax Friendly Layout  
+✔️ Modern Frontend Design  
 
+---
+
+# 🧠 Supported Languages
+
+## ✅ Currently Available
+
+- HTML
+- CSS
+- JavaScript
+
+---
+
+## ⚡ Coming Soon
+
+- Python
+- C
+- C++
+- Java
+- TypeScript
+- PHP
+- React JSX
+- Node.js
+
+---
+
+# 🛠️ Tech Stack
+
+## 🎨 Frontend
+
+- HTML5
+- CSS3
+- JavaScript
+
+---
+
+# 📂 Project Structure
+
+```bash
 code-playground-hub/
 │
-├── index.html # Main structure
-├── style.css # UI styling
-├── script.js # Core functionality
-└── README.md # Documentation
-
+├── index.html
+├── style.css
+├── script.js
+├── assets/
+│
+└── README.md
+```
 
 ---
 
-## 🚀 Getting Started
+# ⚡ Getting Started
 
-### 1. Clone the Repository
+## 1️⃣ Clone Repository
+
 ```bash
 git clone https://github.com/SurajRawatr07/code-playground-hub.git
-2. Open Project
-cd code-playground-hub
-3. Run Locally
-Open index.html in your browser
-📸 Preview
-
-Add screenshots here to increase impact
-
-/assets/editor-view.png
-/assets/output-view.png
-💡 Use Cases
-Practice HTML/CSS/JS in real-time
-Build UI components quickly
-Debug frontend issues
-Teach web development concepts
-🔥 Future Enhancements
-🧠 Monaco Editor (VS Code experience)
-🌙 Dark/Light Theme Toggle
-💾 Save & Load Code (Local Storage)
-🔗 Shareable Code Links
-🤝 Real-Time Collaboration
-📦 Export Projects
-🧪 Challenges Solved
-Handling real-time DOM updates efficiently
-Managing multiple input sources (HTML/CSS/JS)
-Creating smooth preview rendering without reload
-📈 Why This Project Stands Out
-Combines learning + productivity
-Focus on user experience + performance
-Clean architecture for scalability
-Practical real-world use case
-👨‍💻 Author
-
-Suraj Rawat
-🔗 GitHub: https://github.com/SurajRawatr07
-
-⭐ Show Your Support
-
-If you found this project useful:
-
-⭐ Star this repository
-🍴 Fork it
-📢 Share it
-📜 License
-
-This project is licensed under the MIT License.
-
+```
 
 ---
 
-### 🔥 Next Level Upgrade (optional)
-If you want this to look **10/10 professional**, I can:
-- Add **badges (stars, forks, tech icons)**  
-- Add **GIF demo (very powerful for judges)**  
-- Turn this into a **portfolio-level README (top 1%)**
+## 2️⃣ Navigate To Project Folder
 
-Just say: *“make it next level”* 🚀
+```bash
+cd code-playground-hub
+```
+
+---
+
+## 3️⃣ Open Project
+
+```bash
+Open index.html in your browser
+```
+
+---
+
+# 🎨 UI Highlights
+
+✨ Modern Coding Interface  
+✨ Interactive Code Playground  
+✨ Clean Editor Layout  
+✨ Smooth User Experience  
+✨ Responsive Developer UI  
+✨ Fast Navigation Experience  
+✨ Minimal & Professional Design  
+
+---
+
+# 📱 Responsive Design
+
+Optimized for all devices:
+
+| Device | Support |
+|--------|----------|
+| 💻 Desktop | ✅ |
+| 📱 Tablet | ✅ |
+| 📲 Mobile | ✅ |
+
+---
+
+# 🔥 Why This Project?
+
+This project demonstrates modern frontend development concepts by building an interactive online coding platform where users can write and test code directly in the browser.
+
+Perfect for learning:
+
+- JavaScript DOM Manipulation
+- Code Editor UI Design
+- Frontend Development
+- Responsive Web Design
+- Interactive Web Applications
+
+---
+
+# 🚀 Future Features
+
+- 🔥 Multi Language Compiler
+- ⚡ Live Console Output
+- 🌙 Dark / Light Mode
+- 💾 Save Code Feature
+- 📋 Copy Code Button
+- ☁️ Cloud Storage
+- 🔐 User Authentication
+- 🧠 AI Code Suggestions
+- 🖥️ Split Screen Editor
+- 📤 Share Playground Link
+
+---
+
+# 👨‍💻 Author
+
+<div align="center">
+
+## Suraj Rawat
+
+### Frontend Developer • Creative UI Developer • JavaScript Enthusiast
+
+</div>
+
+---
+
+# 🌟 Support
+
+If you like this project, give it a ⭐ on GitHub and support the project.
+
+---
+
+<div align="center">
+
+<img src="https://capsule-render.vercel.app/api?type=waving&color=00C2FF&height=120&section=footer"/>
+
+# ❤️ Made With Passion By Suraj Rawat
+
+</div>
