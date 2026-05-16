@@ -6,7 +6,7 @@
 
 <br>
 
-### 🚀 Modern Online Coding Playground Platform
+###  Modern Online Coding Playground Platform
 
 <p align="center">
   A modern and responsive online code playground built for developers to write, run, and test code in multiple programming languages with a clean UI and smooth coding experience.
