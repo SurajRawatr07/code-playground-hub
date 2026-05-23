@@ -180,7 +180,7 @@ Perfect for learning:
 
 ---
 
-# 👨‍💻 Author
+#  Author
 
 <div align="center">
 
