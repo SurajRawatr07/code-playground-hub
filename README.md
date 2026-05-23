@@ -192,7 +192,7 @@ Perfect for learning:
 
 ---
 
-# 🌟 Support
+#  Support
 
 If you like this project, give it a ⭐ on GitHub and support the project.
 
