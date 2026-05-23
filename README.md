@@ -38,7 +38,7 @@
 
 ---
 
-#  Features
+# ✨ Features
 
 ✔️ Online Code Editor  
 ✔️ Multi Language Support  
@@ -53,9 +53,9 @@
 
 ---
 
-#  Supported Languages
+# 🧠 Supported Languages
 
-##  Currently Available
+## ✅ Currently Available
 
 - HTML
 - CSS
@@ -86,7 +86,7 @@
 
 ---
 
-#  Project Structure
+# 📂 Project Structure
 
 ```bash
 code-playground-hub/
@@ -101,7 +101,7 @@ code-playground-hub/
 
 ---
 
-#  Getting Started
+# ⚡ Getting Started
 
 ## 1️⃣ Clone Repository
 
@@ -165,7 +165,7 @@ Perfect for learning:
 
 ---
 
-#  Future Features
+# 🚀 Future Features
 
 - 🔥 Multi Language Compiler
 - ⚡ Live Console Output
@@ -180,7 +180,7 @@ Perfect for learning:
 
 ---
 
-#  Author
+# 👨‍💻 Author
 
 <div align="center">
 
@@ -192,7 +192,7 @@ Perfect for learning:
 
 ---
 
-#  Support
+# 🌟 Support
 
 If you like this project, give it a ⭐ on GitHub and support the project.
 
