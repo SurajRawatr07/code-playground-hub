@@ -165,7 +165,7 @@ Perfect for learning:
 
 ---
 
-# 🚀 Future Features
+#  Future Features
 
 - 🔥 Multi Language Compiler
 - ⚡ Live Console Output
