@@ -101,7 +101,7 @@ code-playground-hub/
 
 ---
 
-# ⚡ Getting Started
+#  Getting Started
 
 ## 1️⃣ Clone Repository
 
