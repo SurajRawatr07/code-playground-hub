@@ -53,7 +53,7 @@
 
 ---
 
-# 🧠 Supported Languages
+#  Supported Languages
 
 ## ✅ Currently Available
 
