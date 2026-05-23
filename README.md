@@ -38,7 +38,7 @@
 
 ---
 
-# ✨ Features
+#  Features
 
 ✔️ Online Code Editor  
 ✔️ Multi Language Support  
